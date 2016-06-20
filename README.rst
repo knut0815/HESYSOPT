@@ -1,7 +1,6 @@
 HESYSOPT stands for "Heating System Optimization" and is a free, open source
 tool to analyse district heating systems. It is developed in Python and
-based on the open energy modelling framework
-[oemof](https://github.com/oemof/oemof).
+based on the open energy modelling framework (https://github.com/oemof/oemof).
 
 Documentation
 =============

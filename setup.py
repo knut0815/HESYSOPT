@@ -5,11 +5,11 @@
 """
 
 from setuptools import find_packages, setup
-
-import oemof
+import hesysopt
 
 setup(name='hesysopt',
-      version=oemof.__version__,
+      version=hesysopt.__version__,
+      url='http://github.com/znes/HESYSOPT',
       author='Simon Hilpert',
       author_email='simon.hilpert@hs-flensburg.de',
       description='HESYSOPT - Open source heating system optimization.',
