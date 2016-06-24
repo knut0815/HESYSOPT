@@ -1,6 +1,7 @@
 """New components subclassed from oemof.solph components are defined in this
    file.
 """
+import logging
 import numpy as np
 from oemof.solph import LinearTransformer, Bus
 from oemof.solph.plumbing import Sequence
@@ -46,12 +47,12 @@ class ExtractionTurbine(LinearTransformer):
     def _power_output(self):
         """
         """
-        return [o for o in self.outputs if 'electrical_balance' in o.label][0]
+        return [o for o in self.outputs if 'electrical' in o.label][0]
 
     def _heat_output(self):
         """
         """
-        return [o for o in self.outputs if 'heat_balance' in o.label][0]
+        return [o for o in self.outputs if 'heat' in o.label][0]
 
 class ExtractionTurbineExtended(ExtractionTurbine):
     """
@@ -69,6 +70,10 @@ class ExtractionTurbineExtended(ExtractionTurbine):
         """
 
         """
+        logging.warning('\n ********** CAUTION ***********! \n'
+                       'Your are using the extended model for extraction '
+                       'turbines. This model is untested, check your results!')
+
         super().__init__(**kwargs)
         self.efficiency_condesing_min = kwargs.get('efficiency_condesing_min')
         self.efficiency_total  = Sequence(kwargs.get('efficiency_total'))
@@ -133,14 +138,12 @@ class BackpressureTurbine(LinearTransformer):
     def _power_output(self):
         """
         """
-        return [o for o in self.outputs
-                if 'electrical_balance' in o.label][0]
+        return [o for o in self.outputs if 'electrical' in o.label][0]
 
     def _heat_output(self):
         """
         """
-        return [o for o in self.outputs
-                if 'heat_balance' in o.label][0]
+        return [o for o in self.outputs if 'heat' in o.label][0]
 
 class Boiler(LinearTransformer):
     """
@@ -153,5 +156,4 @@ class Boiler(LinearTransformer):
     def _heat_output(self):
         """
         """
-        return [o for o in self.outputs
-                if 'heat_balance' in o.label][0]
+        return [o for o in self.outputs if 'heat' in o.label][0]

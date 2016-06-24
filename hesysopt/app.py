@@ -37,7 +37,7 @@ import os
 import time
 
 from oemof.tools import logger
-from oemof.outputlib import to_pandas as tpd
+from oemof.outputlib import ResultsDataFrame
 from oemof.solph import OperationalModel, EnergySystem, NodesFromCSV
 
 # heat system optimizatio import
@@ -51,11 +51,7 @@ def create_nodes(**arguments):
     """Creates nodes from provided csv-files.
     """
     node_data = arguments['--node_data']
-    if not node_data:
-        node_data = 'nodes_flows.csv'
     sequence_data = arguments['--sequence_data']
-    if not sequence_data:
-        sequence_data = 'nodes_flows_seq.csv'
 
     logging.info("Reading nodes from csv-files...")
     nodes = NodesFromCSV(file_nodes_flows=node_data,
@@ -82,7 +78,6 @@ def simulate(es=None, **arguments):
 
     Parameters
     ----------
-
     es : :class:`oemof.solph.network.EnergySystem` object
        Energy system holding nodes, grouping functions and other important
        information.
@@ -122,7 +117,7 @@ def write_results(es, om, **arguments):
         os.mkdir(resultspath)
 
     # use results dataframe for result writing
-    df = tpd.ResultsDataFrame(energy_system=es)
+    df = ResultsDataFrame(energy_system=es)
     df.to_csv(os.path.join(resultspath, 'results.csv'))
 
     buses = df.index.get_level_values('bus_label').unique()
@@ -172,6 +167,11 @@ def main(**arguments):
 ############################## main ###########################################
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='HESYSOPT v0.0.1')
+    #arguments['--node_data'] = 'data/casestudy/nodes_flows_base.csv'
+    #arguments['--sequence'] = 'data/casestudy/nodes_flows_seq_base.csv'
+    arguments['--start'] = '01/01/012'
+    arguments['--end'] = '06/01/2012'
+    arguments['--loglevel'] = 'DEBUG'
     es, om, df = main(**arguments)
 
 
