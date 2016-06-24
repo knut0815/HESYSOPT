@@ -1,10 +1,13 @@
 class,label,source,target,conversion_factors,nominal_value,actual_value,min,max,variable_costs,fixed,initial_capacity,nominal_capacity,efficiency_condensing,efficiency_condesing_min,power_loss_index,discrete,startup_costs,balanced
 Source,resource_oil,resource_oil,oil_balance,,,,,,,,,,,,,,,False
 Source,resouce_gas,resouce_gas,gas_balance,,,,,,,,,,,,,,,False
-Sink,heat_demand,heat_balance,heat_demand,,150,seq,,,,True,,,,,,,,
+Sink,heat_demand,heat_balance,heat_demand,,100,seq,,,,True,,,,,,,,
 Sink,electrical_demand,electrical_balance,electrical_demand,,,,,,seq,,,,,,,,,
-Boiler,oil_boiler,oil_boiler,heat_balance,0.85,0,,,,30000,,,,,,,,,
-Boiler,oil_boiler,oil_balance,oil_boiler,,0,,,,,,,,,,,,,
-ExtractionTurbineExtended,extr_turbine_ext,extr_turbine_ext,electrical_balance,0.452,45,,0.5,,50,,,,0.5,0.452,0.12,,,
+Boiler,oil_boiler,oil_boiler,heat_balance,0.85,150,,,,30000,,,,,,,,,
+Boiler,oil_boiler,oil_balance,oil_boiler,,,,,,,,,,,,,,,
+ExtractionTurbineExtended,extr_turbine_ext,extr_turbine_ext,electrical_balance,0.452,5,,0.5,,50,,,,0.5,0.452,0.12,,,
 ExtractionTurbineExtended,extr_turbine_ext,gas_balance,extr_turbine_ext,,,,,,,,,,0.5,0.452,0.12,,,
 ExtractionTurbineExtended,extr_turbine_ext,extr_turbine_ext,heat_balance,0.4,,,,,,,,,0.5,0.452,0.12,,,
+BackpressureTurbine,bp_turbine,bp_turbine,electrical_balance,0.4,25,,0.5,,2,,,,,,,True,,
+BackpressureTurbine,bp_turbine,gas_balance,bp_turbine,,,,,,,,,,,,,,,
+BackpressureTurbine,bp_turbine,bp_turbine,heat_balance,0.4,,,,,,,,,,,,,,

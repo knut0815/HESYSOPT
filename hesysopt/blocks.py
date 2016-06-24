@@ -157,7 +157,7 @@ class BackpressureTurbine(SimpleBlock):
                     lhs = (m.flow[n._input(), n, t] *
                                n.conversion_factors[n._power_output()][t])
                     rhs = m.flow[n, n._power_output(), t]
-                    block.electrical_eff.add((n, t), (lhs >= rhs))
+                    block.electrical_eff.add((n, t), (lhs == rhs))
         self.electrical_eff = Constraint(group, noruleinit=True)
         self.electrical_efficiency_build = BuildAction(
             rule=_electrical_efficiency_rule)
@@ -172,6 +172,6 @@ class BackpressureTurbine(SimpleBlock):
                                n.conversion_factors[n._power_output()][t])
                     rhs = (m.flow[n, n._heat_output(), t] /
                                n.conversion_factors[n._heat_output()][t])
-                    block.power_heat.add((n, t), (lhs >= rhs))
+                    block.power_heat.add((n, t), (lhs == rhs))
         self.power_heat = Constraint(group, noruleinit=True)
         self.power_heat_build = BuildAction(rule=_power_to_heat_rule)
