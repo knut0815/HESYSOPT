@@ -5,13 +5,9 @@ Usage: app.py [options]
 
 Options:
       --start=START             Start of the simulation.
-                                [default: 1/1/2014]
       --end=END                 End of the simulation.
-                                [default: 02/01/2014]
       --node_data=NODE_DATA     CSV-file with data for nodes and associated flows.
-                                [default: ./data/nodes_flows.csv]
       --sequence_data=SEQ_DATA  CSV-file with sequence data for flows/nodes.
-                                [default: ./data/nodes_flows_seq.csv]
       --name=NAME               Name of the model.
                                 [default: HESYSModel]
       --solver=SOLVER           Solver to use to for optimization problem
@@ -167,14 +163,14 @@ def main(**arguments):
 ############################## main ###########################################
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='HESYSOPT v0.0.1')
-    #arguments['--node_data'] = 'data/casestudy/nodes_flows_base.csv'
-    #arguments['--sequence'] = 'data/casestudy/nodes_flows_seq_base.csv'
-    arguments['--start'] = '01/01/012'
-    arguments['--end'] = '06/01/2012'
-    arguments['--loglevel'] = 'DEBUG'
+    arguments['--node_data'] = 'examples/csv_example_01/nodes_flows.csv'
+    arguments['--sequence_data'] = 'examples/csv_example_01/nodes_flows_seq.csv'
+    arguments['--start'] = '01/01/2011'
+    arguments['--end'] = '12/31/2011'
+    arguments['--loglevel'] = 'INFO'
+    arguments['--solver-output'] = 'True'
+    arguments['--solver'] = 'gurobi'
     es, om, df = main(**arguments)
-
-
 
 
 
