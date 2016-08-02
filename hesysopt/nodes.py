@@ -14,7 +14,6 @@ class ResourceBus(Bus):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-
 class HeatBus(Bus):
     """
     """
@@ -64,8 +63,6 @@ class ExtractionTurbineExtended(ExtractionTurbine):
      *1=(50,0) --
                   -- *3
     """
-    lower_name = "simple_extraction_chp"
-
     def __init__(self, **kwargs):
         """
 
@@ -124,6 +121,7 @@ class ExtractionTurbineExtended(ExtractionTurbine):
         self.k = np.linalg.solve(a, b)
         self.p = p
 
+
 class BackpressureTurbine(LinearTransformer):
     """
     """
@@ -154,7 +152,6 @@ class BackpressureTurbineExtended(BackpressureTurbine):
     def calculate_coefficients(self):
         """
         """
-
         o = self._power_output()
         pmin = self.outputs[o].min[0] * self.outputs[o].nominal_value
         pmax = self.outputs[o].max[0] * self.outputs[o].nominal_value
