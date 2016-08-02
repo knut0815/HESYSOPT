@@ -75,8 +75,7 @@ class ExtractionTurbineExtended(ExtractionTurbine):
                        'turbines. This model is untested, check your results!')
 
         super().__init__(**kwargs)
-        self.efficiency_condesing_min = kwargs.get('efficiency_condesing_min')
-        self.efficiency_total  = Sequence(kwargs.get('efficiency_total'))
+        self.efficiency_min = kwargs.get('efficiency_min')
 
 
     def calculate_coefficients(self):
@@ -93,7 +92,7 @@ class ExtractionTurbineExtended(ExtractionTurbine):
         q = [0, 0, None, None]
 
         eta_el = [self.efficiency_condensing,
-                  self.efficiency_condesing_min]
+                  self.efficiency_min]
 
         eta = self.efficiency_total
 
@@ -125,8 +124,6 @@ class ExtractionTurbineExtended(ExtractionTurbine):
         self.k = np.linalg.solve(a, b)
         self.p = p
 
-
-
 class BackpressureTurbine(LinearTransformer):
     """
     """
@@ -144,6 +141,28 @@ class BackpressureTurbine(LinearTransformer):
         """
         """
         return [o for o in self.outputs if 'heat' in o.label][0]
+
+class BackpressureTurbineExtended(BackpressureTurbine):
+    """
+    """
+    def __init__(self, *args, **kwargs):
+        """
+        """
+        super().__init__(*args, **kwargs)
+        self.efficiency_min = kwargs.get('efficiency_min')
+
+    def calculate_coefficients(self):
+        """
+        """
+
+        o = self._power_output()
+        pmin = self.outputs[o].min[0] * self.outputs[o].nominal_value
+        pmax = self.outputs[o].max[0] * self.outputs[o].nominal_value
+        A = np.array([[1, pmin],
+                      [1, pmax]])
+        b = np.array([pmin / self.efficiency_min,
+                      pmax / self.conversion_factors[o][0]])
+        self.coeff = np.linalg.solve(A, b)
 
 class Boiler(LinearTransformer):
     """

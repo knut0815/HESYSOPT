@@ -8,8 +8,8 @@ Options:
       --end=END                 End of the simulation.
       --node_data=NODE_DATA     CSV-file with data for nodes and associated flows.
       --sequence_data=SEQ_DATA  CSV-file with sequence data for flows/nodes.
-      --name=NAME               Name of the model.
-                                [default: HESYSModel]
+      --scenario_name=NAME      Name of the scenario.
+                                [default: base]
       --solver=SOLVER           Solver to use to for optimization problem
                                 [default: glpk]
       --solver-output           Print the solver-output on console.
@@ -83,11 +83,12 @@ def simulate(es=None, **arguments):
 
 
     logging.info("Creating optimization model...")
-    om = OperationalModel(name=arguments['--name'],
-                          es=es, constraint_groups=ADD_SOLPH_BLOCKS)
+    om = OperationalModel(es=es, constraint_groups=ADD_SOLPH_BLOCKS)
 
     if arguments['--loglevel'] == 'DEBUG':
-        lppath = os.path.join(arguments['--output-directory'], "lp-files")
+        lppath = os.path.join(arguments['--output-directory'],
+                              arguments['--scenario_name'],
+                              'lp-file')
         if not os.path.exists(lppath):
             os.mkdir(lppath)
         lpfilepath = os.path.join(lppath, ''.join([om.name,
@@ -108,13 +109,13 @@ def write_results(es, om, **arguments):
     """Writes results to csv file
     """
     resultspath = os.path.join(arguments['--output-directory'],
-                               'results' + es.timestamp)
+                               'results')
     if not os.path.exists(resultspath):
         os.mkdir(resultspath)
 
     # use results dataframe for result writing
     df = ResultsDataFrame(energy_system=es)
-    df.to_csv(os.path.join(resultspath, 'results.csv'))
+    df.to_csv(os.path.join(resultspath, 'all_results.csv'))
 
     buses = df.index.get_level_values('bus_label').unique()
     for b in buses:
@@ -129,10 +130,12 @@ def main_path(**arguments):
     """
     if not arguments['--output-directory']:
         homepath = os.path.expanduser("~")
-        mainpath = os.path.join(homepath, 'hesysopt_simulation')
+        mainpath = os.path.join(homepath,
+                                'hesysopt_simulation',
+                                arguments['--scenario_name'])
 
         if not os.path.exists(mainpath):
-            os.mkdir(mainpath)
+            os.makedirs(mainpath, exist_ok=True)
 
     return mainpath
 
@@ -165,10 +168,11 @@ if __name__ == '__main__':
     arguments = docopt(__doc__, version='HESYSOPT v0.0.1')
     arguments['--node_data'] = 'examples/csv_example_01/nodes_flows.csv'
     arguments['--sequence_data'] = 'examples/csv_example_01/nodes_flows_seq.csv'
-    arguments['--start'] = '01/01/2011'
-    arguments['--end'] = '12/31/2011'
+    arguments['--start'] = '01/01/2011'   # '00:00' #
+    arguments['--end'] = '31/12/2011'
     arguments['--loglevel'] = 'INFO'
     arguments['--solver-output'] = 'True'
+    arguments['--scenario_name'] = 'base1'
     arguments['--solver'] = 'gurobi'
     es, om, df = main(**arguments)
 

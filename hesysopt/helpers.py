@@ -9,7 +9,8 @@
 import oemof.solph as solph
 from oemof.core import energy_system as core_es
 from nodes import (ExtractionTurbine, BackpressureTurbine,
-                   ExtractionTurbineExtended, Boiler, ElectricalBus)
+                   ExtractionTurbineExtended, BackpressureTurbineExtended,
+                   Boiler, ElectricalBus)
 import blocks
 
 # ############################ Grouping #######################################
@@ -21,8 +22,11 @@ def constraint_grouping(node):
         return blocks.ExtractionTurbine
     if isinstance(node, ExtractionTurbineExtended):
         return blocks.ExtractionTurbineExtended
-    if isinstance(node, BackpressureTurbine):
+    if (isinstance(node, BackpressureTurbine) and not
+            isinstance(node, BackpressureTurbineExtended)):
         return blocks.BackpressureTurbine
+    if isinstance(node, BackpressureTurbineExtended):
+        return blocks.BackpressureTurbineExtended
     if isinstance(node, Boiler):
         return solph.blocks.LinearTransformer
     if (isinstance(node, solph.Bus) and node.balanced):
@@ -71,11 +75,13 @@ GROUPINGS = [constraint_grouping, standard_flow_grouping,
 # ####################### classes dict for csv-reader #########################
 
 ADD_SOLPH_BLOCKS = [blocks.BackpressureTurbine, blocks.ExtractionTurbine,
-                    blocks.ExtractionTurbineExtended]
+                    blocks.ExtractionTurbineExtended,
+                    blocks.BackpressureTurbineExtended]
 
 ADD_CSV_CLASSES = {'ExtractionTurbine': ExtractionTurbine,
                    'BackpressureTurbine': BackpressureTurbine,
                    'ExtractionTurbineExtended': ExtractionTurbineExtended,
+                   'BackpressureTurbineExtended': BackpressureTurbineExtended,
                    'Boiler': Boiler,
                    'ElectricalBus': ElectricalBus}
 

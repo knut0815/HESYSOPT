@@ -77,11 +77,6 @@ class ExtractionTurbineExtended(SimpleBlock):
         m = self.parent_block()
 
         for n in group:
-            n.efficiency_total = [
-                n.conversion_factors[m.es.groups[n._power_output().label]][t] +
-                n.conversion_factors[m.es.groups[n._heat_output().label]][t]
-                for t in m.TIMESTEPS
-            ]
             n.calculate_coefficients()
 
         self.TURBINES = [n for n in group]
@@ -175,3 +170,70 @@ class BackpressureTurbine(SimpleBlock):
                     block.power_heat.add((n, t), (lhs == rhs))
         self.power_heat = Constraint(group, noruleinit=True)
         self.power_heat_build = BuildAction(rule=_power_to_heat_rule)
+
+
+
+class BackpressureTurbineExtended(SimpleBlock):
+    """Block for the backpressure turbine with variable electrical efficiency
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def _create(self, group=None):
+        """ Creates constraints for backpressure turbine.
+
+        Parameters
+        ----------
+        group : list
+            List of :class:`BackpressureTurbine` objects
+            e.g. group = [bp1, bp2, ...].
+        """
+        if group is None:
+            return None
+
+        for n in group:
+            n.calculate_coefficients()
+
+        m = self.parent_block()
+
+        def _total_efficiency_rule(block):
+            """Rule definition for electrical efficiency relation of
+            backpressure turbine.
+            """
+            for t in m.TIMESTEPS:
+                for n in group:
+                    lhs = (m.flow[n._input(), n, t] *
+                           sum(c[0] for c in  n.conversion_factors.values()))
+                    rhs = sum(m.flow[n, o, t] for o in n.outputs)
+                    block.electrical_eff.add((n, t), (lhs == rhs))
+        self.electrical_eff = Constraint(group, noruleinit=True)
+        self.electrical_efficiency_build = BuildAction(
+            rule=_total_efficiency_rule)
+#
+#        def _power_to_heat_rule(block):
+#            """Rule definition of power to heat relation of backpressure
+#            turbine.
+#            """
+#            for t in m.TIMESTEPS:
+#                for n in group:
+#                    lhs = (m.flow[n, n._power_output(), t] /
+#                               n.conversion_factors[n._power_output()][t])
+#                    rhs = (m.flow[n, n._heat_output(), t] /
+#                               n.conversion_factors[n._heat_output()][t])
+#                    block.power_heat.add((n, t), (lhs == rhs))
+#        self.power_heat = Constraint(group, noruleinit=True)
+#        self.power_heat_build = BuildAction(rule=_power_to_heat_rule)
+
+        def _electrical_efficiency_rule(block):
+            """
+            """
+            for t in m.TIMESTEPS:
+                for n in group:
+                    lhs = m.flow[n._input(), n, t]
+                    rhs = (m.Discrete.status[n, n._power_output(), t] *
+                           n.coeff[0] + n.coeff[1] *
+                           m.flow[n, n._power_output(), t])
+                    block.electrical_efficiency.add((n, t), lhs == rhs)
+        self.electrical_efficiency = Constraint(group, noruleinit=True)
+        self.electrical_efficiency_build = BuildAction(
+            rule=_electrical_efficiency_rule)
