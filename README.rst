@@ -4,7 +4,6 @@ based on the open energy modelling framework (https://github.com/oemof/oemof),
 specifically the solph-package. The mathematical approach is mixed-integer-linear
 programming. 
 
-![](https://rawgit.com/znes/HESYSOPT/master/doc/example_system.svg)
 
 
 Documentation
