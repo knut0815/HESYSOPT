@@ -39,7 +39,7 @@ from oemof.outputlib import ResultsDataFrame
 from oemof.solph import OperationalModel, EnergySystem, NodesFromCSV
 
 # heat system optimizatio import
-from helpers import (GROUPINGS, ADD_CSV_CLASSES, ADD_CSV_SEQ_ATTRIBUTES,
+from hesysopt.helpers import (GROUPINGS, ADD_CSV_CLASSES, ADD_CSV_SEQ_ATTRIBUTES,
                      ADD_SOLPH_BLOCKS)
 
 logger.define_logging()
@@ -49,7 +49,12 @@ def create_nodes(**arguments):
     """Creates nodes from provided csv-files.
     """
     node_data = arguments['--node_data']
+    if node_data is None:
+        raise ValueError("Missing node-data. Did your specifiy a path?")
+
     sequence_data = arguments['--sequence_data']
+    if sequence_data is None:
+        raise ValueError("Missing sequence-data. Did your specifiy a path?")
 
     logging.info("Reading nodes from csv-files...")
     nodes = NodesFromCSV(file_nodes_flows=node_data,
@@ -172,15 +177,6 @@ def main(**arguments):
 ############################## main ###########################################
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='HESYSOPT v0.0.1')
-    arguments['--node_data'] = 'examples/time_sampling_example/nodes_flows_base.csv'
-    arguments['--sequence_data'] = 'examples/time_sampling_example/2H_sample.csv'
-    arguments['--start'] = '01/01/2011'   # '00:00' #
-    arguments['--end'] = '05/31/2011'
-    arguments['--freq'] = '2H'
-    arguments['--loglevel'] = 'DEBUG'
-    arguments['--solver-output'] = 'True'
-    arguments['--scenario_name'] = '2H_sample'
-    arguments['--solver'] = 'gurobi'
     es, om, df = main(**arguments)
 
 
