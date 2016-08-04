@@ -8,10 +8,10 @@
 """
 import oemof.solph as solph
 from oemof import groupings as grp
-from nodes import (ExtractionTurbine, BackpressureTurbine,
+from hesysopt.nodes import (ExtractionTurbine, BackpressureTurbine,
                    ExtractionTurbineExtended, BackpressureTurbineExtended,
                    Boiler, ElectricalBus)
-import blocks
+import hesysopt.blocks as blocks
 
 # ############################ Grouping #######################################
 def constraint_grouping(node):
