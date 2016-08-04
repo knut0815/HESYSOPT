@@ -6,6 +6,8 @@ Usage: app.py [options]
 Options:
       --start=START             Start of the simulation.
       --end=END                 End of the simulation.
+      --freq=FREQ               Timeincrement of simulation (e.g. '4H')
+                                [default: 1H]
       --node_data=NODE_DATA     CSV-file with data for nodes and associated flows.
       --sequence_data=SEQ_DATA  CSV-file with sequence data for flows/nodes.
       --scenario_name=NAME      Name of the scenario.
@@ -61,7 +63,8 @@ def create_energysystem(nodes, **arguments):
     """Create the energysystem.
     """
     datetime_index = pd.date_range(start=arguments['--start'],
-                                   end=arguments['--end'], freq='60min')
+                                   end=arguments['--end'],
+                                   freq=arguments['--freq'])
     es = EnergySystem(entities=nodes, time_idx=datetime_index,
                       groupings=GROUPINGS)
     es.timestamp = time.strftime("%Y%m%d-%H:%M:%S")
@@ -87,7 +90,6 @@ def simulate(es=None, **arguments):
 
     if arguments['--loglevel'] == 'DEBUG':
         lppath = os.path.join(arguments['--output-directory'],
-                              arguments['--scenario_name'],
                               'lp-file')
         if not os.path.exists(lppath):
             os.mkdir(lppath)
@@ -99,7 +101,8 @@ def simulate(es=None, **arguments):
     logging.info('Solving optimization model...')
 
     om.solve(arguments['--solver'],
-             solve_kwargs={'tee':arguments['--solver-output']})
+             solve_kwargs={'tee':arguments['--solver-output']},
+             cmdline_options= {"mipgap":0.001})
 
     om.results()
 
@@ -136,6 +139,9 @@ def main_path(**arguments):
 
         if not os.path.exists(mainpath):
             os.makedirs(mainpath, exist_ok=True)
+    else:
+        mainpath = os.path.join(arguments['--output-directory'],
+                                arguments['--scenario_name'])
 
     return mainpath
 
@@ -166,13 +172,14 @@ def main(**arguments):
 ############################## main ###########################################
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='HESYSOPT v0.0.1')
-    arguments['--node_data'] = 'examples/csv_example_01/nodes_flows.csv'
-    arguments['--sequence_data'] = 'examples/csv_example_01/nodes_flows_seq.csv'
+    arguments['--node_data'] = 'examples/casestudy/nodes_flows_base.csv'
+    arguments['--sequence_data'] = 'examples/casestudy/2H_sample.csv'
     arguments['--start'] = '01/01/2011'   # '00:00' #
-    arguments['--end'] = '31/12/2011'
-    arguments['--loglevel'] = 'INFO'
+    arguments['--end'] = '07/31/2011'
+    arguments['--freq'] = '2H'
+    arguments['--loglevel'] = 'DEBUG'
     arguments['--solver-output'] = 'True'
-    arguments['--scenario_name'] = 'base1'
+    arguments['--scenario_name'] = '2H_sample'
     arguments['--solver'] = 'gurobi'
     es, om, df = main(**arguments)
 

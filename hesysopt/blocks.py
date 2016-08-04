@@ -6,7 +6,9 @@ from pyomo.core import (Constraint, BuildAction)
 from pyomo.core.base.block import SimpleBlock
 
 class ExtractionTurbine(SimpleBlock):
-    """Block for the extraction turbine containing the constraints.
+    """Block for the extraction turbine containing the constraints. If you
+    use this model you need to specifiy the min und max values of the inflow
+    of the component and
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -33,21 +35,21 @@ class ExtractionTurbine(SimpleBlock):
                 for t in m.TIMESTEPS
             ]
 
-        def _equivalent_power_rule(block):
+        def _fuel_consumption_rule(block):
             """
             """
             for t in m.TIMESTEPS:
                 for n in group:
                     lhs = m.flow[n._input(), n, t]
                     rhs = (
-                        (m.flow[n, n._power_output(), t] *
-                             n.power_loss_index[t] +
-                         m.flow[n, n._heat_output(), t]) /
-                             n.efficiency_condensing
+                        (m.flow[n, n._power_output(), t]  +
+                         m.flow[n, n._heat_output(), t] *
+                             n.power_loss_index[t]) /
+                         n.efficiency_condensing
                         )
-                    block.equivalent_power.add((n, t), (lhs == rhs))
-        self.equivalent_power = Constraint(group, noruleinit=True)
-        self.equivalent_power_build = BuildAction(rule=_equivalent_power_rule)
+                    block.fuel_consumption.add((n, t), (lhs == rhs))
+        self.fuel_consumption = Constraint(group, noruleinit=True)
+        self.fuel_consuption_build = BuildAction(rule=_fuel_consumption_rule)
 
         def _power_to_heat_rule(block):
             """
@@ -81,7 +83,7 @@ class ExtractionTurbineExtended(SimpleBlock):
 
         self.TURBINES = [n for n in group]
 
-        # 1) P <= p[0] - beta[0]*Q
+        # 1) P <= p[0] - beta*Q
         def _max_boiler_load_rule(block, n, t):
             """
             """
@@ -100,7 +102,7 @@ class ExtractionTurbineExtended(SimpleBlock):
         self.constraint_c2= Constraint(self.TURBINES, m.TIMESTEPS,
                                        rule=_power_heat_rule)
 
-        # 3) P >= p[1] - beta[1]*Q
+        # 3) P >= p[1] - beta*Q
         def _min_boiler_load_rule(block, n, t):
             if True: #n.outputs[n._power_output()].discrete is not None:
                 lhs = m.flow[n, n._power_output(), t]
@@ -209,20 +211,6 @@ class BackpressureTurbineExtended(SimpleBlock):
         self.electrical_eff = Constraint(group, noruleinit=True)
         self.electrical_efficiency_build = BuildAction(
             rule=_total_efficiency_rule)
-#
-#        def _power_to_heat_rule(block):
-#            """Rule definition of power to heat relation of backpressure
-#            turbine.
-#            """
-#            for t in m.TIMESTEPS:
-#                for n in group:
-#                    lhs = (m.flow[n, n._power_output(), t] /
-#                               n.conversion_factors[n._power_output()][t])
-#                    rhs = (m.flow[n, n._heat_output(), t] /
-#                               n.conversion_factors[n._heat_output()][t])
-#                    block.power_heat.add((n, t), (lhs == rhs))
-#        self.power_heat = Constraint(group, noruleinit=True)
-#        self.power_heat_build = BuildAction(rule=_power_to_heat_rule)
 
         def _electrical_efficiency_rule(block):
             """
