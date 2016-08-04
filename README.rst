@@ -19,11 +19,15 @@ At the moment you need to clone the repository:
 
   git clone git@github.com:znes/HESYSOPT.git
 
+HESYSOPT depends on oemof. Once you installed oemof, you should be ready to 
+start as all dependencies that are required for HESYSOPT are coming along with
+oemof (pandas, pyomo, etc.).
+
 Running HESYSOPT
 =====================
 
 Once you downloaded the repository, change to the directory with the source code. 
-You can now run the application via terminal command. 
+You can now run the application with terminal command. 
 
 To get information about app options, run the following command in your
 terminal:
@@ -35,3 +39,16 @@ terminal:
 
 Provide the data in a csv-file. To see what structure is needed, checkout the
 example directory inside the repository. 
+
+Citing HESYSOPT
+====================
+There exist a short-paper for the EnvironInfo conference 2016 (submitted). 
+
+Please cite as: 
+
+S. Hilpert (2016) HESYSOPT - An optimization tool to support district heating flexibilisation. 
+Short paper presented at the Environmental Informatics – Current trends and future perspectives based on 30 years of history, Berlin, 14-16 September 2016
+
+
+
+
