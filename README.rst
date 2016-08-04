@@ -4,13 +4,8 @@ based on the open energy modelling framework (https://github.com/oemof/oemof),
 specifically the solph-package. The mathematical approach is mixed-integer-linear
 programming. 
 
-.. 	image:: https://rawgit.com/znes/HESYSOPT/master/doc/example_system.svg
+https://rawgit.com/znes/HESYSOPT/master/doc/example_system.svg
 
-   :height: 744px
-   :width: 4052 px
-   :scale: 40 %
-   :alt: alternate text
-   :align: center
 
 Documentation
 =============
