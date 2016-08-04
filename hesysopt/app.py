@@ -119,7 +119,7 @@ def write_results(es, om, **arguments):
     resultspath = os.path.join(arguments['--output-directory'],
                                'results')
     if not os.path.exists(resultspath):
-        os.mkdir(resultspath)
+        os.makedirs(resultspath, exist_ok=True)
 
     # use results dataframe for result writing
     df = ResultsDataFrame(energy_system=es)
