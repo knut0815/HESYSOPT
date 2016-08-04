@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+This module is used to configure the plotting. At the momemt it reads for
+the default all results path  and creates a multiindex dataframe. This is
+used by the different plotting-modules. Also, colors are set here.
+
+Note: This is rather ment to illustrate, how hesysopt results can be plotted,
+than to depict a complete plotting ready to use library.
+
 """
 import os
 import seaborn as sns

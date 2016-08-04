@@ -102,7 +102,7 @@ def simulate(es=None, **arguments):
 
     om.solve(arguments['--solver'],
              solve_kwargs={'tee':arguments['--solver-output']},
-             cmdline_options= {"mipgap":0.001})
+             cmdline_options= {"mipgap":0})
 
     om.results()
 
@@ -172,8 +172,8 @@ def main(**arguments):
 ############################## main ###########################################
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='HESYSOPT v0.0.1')
-    arguments['--node_data'] = 'examples/casestudy/nodes_flows_base.csv'
-    arguments['--sequence_data'] = 'examples/casestudy/2H_sample.csv'
+    arguments['--node_data'] = 'examples/time_sampling_example/nodes_flows_base.csv'
+    arguments['--sequence_data'] = 'examples/time_sampling_example/2H_sample.csv'
     arguments['--start'] = '01/01/2011'   # '00:00' #
     arguments['--end'] = '05/31/2011'
     arguments['--freq'] = '2H'

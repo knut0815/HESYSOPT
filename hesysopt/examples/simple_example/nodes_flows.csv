@@ -1,0 +1,16 @@
+class,label,source,target,conversion_factors,nominal_value,actual_value,min,max,variable_costs,fixed,initial_capacity,nominal_capacity,efficiency_condensing,efficiency_min,power_loss_index,discrete,startup_costs,balanced
+Source,resource_oil,resource_oil,oil_balance,,,,,,,,,,,,,,,False
+Source,resouce_gas,resouce_gas,gas_balance,,,,,,,,,,,,,,,False
+Sink,heat_demand,heat_balance,heat_demand,,100,seq,,,,True,,,,,,,,
+Sink,electrical_demand,electrical_balance,electrical_demand,,,,,,seq,,,,,,,,,
+Boiler,OB,OB,heat_balance,0.85,150,,,,30000,,,,,,,,,
+Boiler,OB,oil_balance,OB,,,,,,,,,,,,,,,
+##ExtractionTurbineExtended,EXT1,EXT1,electrical_balance,452,5,,,,50,,,,0.5,452,0.12,,,
+##ExtractionTurbineExtended,EXT1,gas_balance,EXT1,,10,,0.5,,,,,,,,,True,,
+##ExtractionTurbineExtended,EXT1,EXT1,heat_balance,0.4,,,,,,,,,,,,,,
+BackpressureTurbine,BP1,BP1,electrical_balance,0.4,25,,0.5,,2,,,,,,,True,,
+BackpressureTurbine,BP1,gas_balance,BP1,,,,,,,,,,,,,,,
+BackpressureTurbine,BP1,BP1,heat_balance,0.4,,,,,,,,,,,,,,
+BackpressureTurbineExtended,BP2,BP2,electrical_balance,0.4,25,,0.5,1,2,,,,,0.35,,True,,
+BackpressureTurbineExtended,BP2,gas_balance,BP2,,,,,,,,,,,,,,,
+BackpressureTurbineExtended,BP2,BP2,heat_balance,0.4,,,,,,,,,,,,,,
