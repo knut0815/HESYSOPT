@@ -4,6 +4,13 @@ based on the open energy modelling framework (https://github.com/oemof/oemof),
 specifically the solph-package. The mathematical approach is mixed-integer-linear
 programming. 
 
+.. 	image:: doc/example_system.eps
+   :height: 744px
+   :width: 1052 px
+   :scale: 30 %
+   :alt: alternate text
+   :align: center
+
 Documentation
 =============
 
