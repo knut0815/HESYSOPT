@@ -7,7 +7,7 @@
     `blocks` but also add nodes to already existing solph `blocks`.
 """
 import oemof.solph as solph
-from oemof.core import energy_system as core_es
+from oemof import groupings as grp
 from nodes import (ExtractionTurbine, BackpressureTurbine,
                    ExtractionTurbineExtended, BackpressureTurbineExtended,
                    Boiler, ElectricalBus)
@@ -46,7 +46,7 @@ def merge_standard_flows(n, group):
     group.extend(n)
     return group
 
-standard_flow_grouping = core_es.Grouping(
+standard_flow_grouping = grp.Grouping(
     key=standard_flow_key,
     value=standard_flows,
     merge=merge_standard_flows)
@@ -64,7 +64,7 @@ def merge_discrete_flows(n, group):
     group.extend(n)
     return group
 
-discrete_flow_grouping = core_es.Grouping(
+discrete_flow_grouping = grp.Grouping(
     key=discrete_flow_key,
     value=discrete_flows,
     merge=merge_discrete_flows)

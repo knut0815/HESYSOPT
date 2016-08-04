@@ -175,7 +175,7 @@ if __name__ == '__main__':
     arguments['--node_data'] = 'examples/casestudy/nodes_flows_base.csv'
     arguments['--sequence_data'] = 'examples/casestudy/2H_sample.csv'
     arguments['--start'] = '01/01/2011'   # '00:00' #
-    arguments['--end'] = '07/31/2011'
+    arguments['--end'] = '05/31/2011'
     arguments['--freq'] = '2H'
     arguments['--loglevel'] = 'DEBUG'
     arguments['--solver-output'] = 'True'

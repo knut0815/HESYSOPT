@@ -3,7 +3,7 @@
 """
 from hesysopt.plots.config import main_df, colors, plt, pd
 
-main_df = main_df.loc['base1']
+main_df = main_df.loc['2H_sample']
 chps = ['BP1', 'EXT']
 
 fig, axes = plt.subplots(nrows=1, ncols=len(chps), figsize=(12,6))

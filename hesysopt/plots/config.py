@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 plt.style.use('ggplot')
 
-scenarios = ['base1']
+scenarios = ['2H_sample']
 homepath = os.path.expanduser('~')
 
 main_df = pd.DataFrame()
