@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from hesysopt.plots.config import heat_df, colors, pd
 
-df = heat_df['base1']
+df = heat_df['base']
 
 dct = {c: df.sort_values(by=c, ascending=False)[c].values for c in df}
 df_sorted = pd.DataFrame(dct, columns=df.columns)

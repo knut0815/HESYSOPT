@@ -11,7 +11,7 @@ heat_df.drop(['STO'], level=1, inplace=True, axis=1)
 
 
 # plot
-s = 'base1'
+s = 'base'
 summed = heat_df[s].sum() * 1e-3 # to GWh
 ax = summed.plot(kind='bar', title="Total heat production by Unit",
                  colors=list(map(colors.get, heat_df[s].columns)))

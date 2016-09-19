@@ -4,8 +4,8 @@ source,extr_turbine,electrical_balance,bp_turbine,heat_balance
 target,electrical_balance,electrical_demand,electrical_balance,heat_demand
 attribute,max,variable_costs,max,actual_value
 ,0.97,-49.94,0.99,0.1469452338
-values,0.97,-42.93,0.99,0.1500444621
-in Mwh,0.97,-38.45,0.99,0.1569258683
+,0.97,-42.93,0.99,0.1500444621
+,0.97,-38.45,0.99,0.1569258683
 ,0.97,-29.35,0.99,0.1740503842
 ,0.97,-27.9,0.99,0.2175136794
 ,0.97,-35.01,0.99,0.2993166845
