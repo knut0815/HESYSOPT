@@ -23,7 +23,13 @@ At the moment you need to clone the repository:
 
 HESYSOPT depends on oemof. Once you installed oemof, you should be ready to 
 start as all dependencies that are required for HESYSOPT are coming along with
-oemof (pandas, pyomo, etc.).
+oemof (pandas, pyomo, etc.). You might want to add the HESYSOPT repository to your python
+path by adding the following line to you ~/.bashrc file.  
+
+.. code:: bash 
+	
+	export PYTHONPATH="${PYTHONPATH}:/home/user/path/to/HESYSOPT"
+
 
 Running HESYSOPT
 =====================
