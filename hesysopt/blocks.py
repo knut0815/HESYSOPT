@@ -218,7 +218,7 @@ class BackpressureTurbineExtended(SimpleBlock):
             for t in m.TIMESTEPS:
                 for n in group:
                     lhs = m.flow[n._input(), n, t]
-                    rhs = (m.Discrete.status[n, n._power_output(), t] *
+                    rhs = (m.BinaryFlow.status[n, n._power_output(), t] *
                            n.coeff[0] + n.coeff[1] *
                            m.flow[n, n._power_output(), t])
                     block.electrical_efficiency.add((n, t), lhs == rhs)

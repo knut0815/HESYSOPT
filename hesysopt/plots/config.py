@@ -14,7 +14,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 plt.style.use('ggplot')
 
-scenarios = ['2H_sample']
+scenarios = ['base']
 homepath = os.path.expanduser('~')
 
 main_df = pd.DataFrame()
@@ -43,6 +43,6 @@ colors = dict(zip(components,
 
 # select heat flows from main_df
 idx = pd.IndexSlice
-heat_df = main_df.loc[idx[scenarios, 'heat_balance', 'input', :, :]].unstack([0, 1, 2, 3])
+heat_df = main_df.loc[idx[scenarios, 'heat_balance', 'to_bus', :, :]].unstack([0, 1, 2, 3])
 heat_df.columns = heat_df.columns.droplevel([0, 2, 3])
 heat_df.columns.name = 'Unit'

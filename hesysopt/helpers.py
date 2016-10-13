@@ -51,26 +51,26 @@ standard_flow_grouping = grp.Grouping(
     value=standard_flows,
     merge=merge_standard_flows)
 
-def discrete_flow_key(n):
+def binary_flow_key(n):
     for f in n.outputs.values():
-        if f.discrete is not None:
-            return solph.blocks.Discrete
+        if f.binary is not None:
+            return solph.blocks.BinaryFlow
 
-def discrete_flows(n):
+def binary_flows(n):
     return [(n, t, f) for (t, f) in n.outputs.items()
-            if f.discrete is not None]
+            if f.binary is not None]
 
-def merge_discrete_flows(n, group):
+def merge_binary_flows(n, group):
     group.extend(n)
     return group
 
-discrete_flow_grouping = grp.Grouping(
-    key=discrete_flow_key,
-    value=discrete_flows,
-    merge=merge_discrete_flows)
+binary_flow_grouping = grp.Grouping(
+    key=binary_flow_key,
+    value=binary_flows,
+    merge=merge_binary_flows)
 
 GROUPINGS = [constraint_grouping, standard_flow_grouping,
-             discrete_flow_grouping]
+             binary_flow_grouping]
 
 # ####################### classes dict for csv-reader #########################
 

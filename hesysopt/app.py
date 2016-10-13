@@ -39,8 +39,8 @@ from oemof.outputlib import ResultsDataFrame
 from oemof.solph import OperationalModel, EnergySystem, NodesFromCSV
 
 # heat system optimizatio import
-from hesysopt.helpers import (GROUPINGS, ADD_CSV_CLASSES, ADD_CSV_SEQ_ATTRIBUTES,
-                     ADD_SOLPH_BLOCKS)
+from hesysopt.helpers import (GROUPINGS, ADD_CSV_CLASSES,
+                              ADD_CSV_SEQ_ATTRIBUTES, ADD_SOLPH_BLOCKS)
 
 logger.define_logging()
 
@@ -107,7 +107,7 @@ def simulate(es=None, **arguments):
 
     om.solve(arguments['--solver'],
              solve_kwargs={'tee':arguments['--solver-output']},
-             cmdline_options= {"mipgap":0})
+             cmdline_options= {"mipgap":0.0})
 
     om.results()
 

@@ -8,7 +8,7 @@ as XH_sample.csv, where X are the sampled hours.
 import pandas as pd
 import os
 
-path = 'examples/casestudy/'
+path = 'examples/simple_example/'
 files = os.listdir(path)
 seq_file = [i for i in files if 'seq' in i][0]
 
