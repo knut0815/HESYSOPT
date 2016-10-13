@@ -1,4 +1,4 @@
-class,label,source,target,conversion_factors,nominal_value,actual_value,min,max,variable_costs,fixed_costs,fixed,discrete,nominal_capacity,capacity_loss,initial_capacity,capacity_min,capacity_max,power_loss_index,efficiency_condensing
+class,label,source,target,conversion_factors,nominal_value,actual_value,min,max,variable_costs,fixed_costs,fixed,binary,nominal_capacity,capacity_loss,initial_capacity,capacity_min,capacity_max,power_loss_index,efficiency_condensing
 ,,,,,,,,,,,,,,,,,,,
 ### Resources,,,,,,,,,,,,,,,,,,,
 Source,OIL,OIL,oil_balance,,,,,,70,,,,,,,,,,
