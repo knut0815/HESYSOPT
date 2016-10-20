@@ -7,7 +7,7 @@
 import pandas as pd
 
 from oemof.solph import (Flow, OperationalModel, Bus, Sink, EnergySystem,
-                         Discrete)
+                         BinaryFlow)
 from oemof.outputlib import ResultsDataFrame
 # heat system optimizatio import
 from hesysopt.nodes import ExtractionTurbine, BackpressureTurbine, Boiler
@@ -51,7 +51,7 @@ extr = ExtractionTurbine(label="EXT", conversion_factors={belec: 0.514,
                                            variable_costs=10)},
                         outputs={belec: Flow(nominal_value=10,
                                              variable_costs=-5, min=0.5,
-                                             discrete=Discrete()),
+                                             discrete=BinaryFlow()),
                                  bheat: Flow()},
                         power_loss_index=0.12,
                         efficiency_condensing=0.55)
@@ -62,7 +62,7 @@ backpr = BackpressureTurbine(label="BP",
                                                 variable_costs=10)},
                              outputs={belec: Flow(nominal_value=10,
                                                   variable_costs=-5, min=0.5,
-                                                  discrete=Discrete()),
+                                                  discrete=BinaryFlow()),
                                       bheat: Flow()},
                              conversion_factors={belec: 0.4,
                                                  bheat: 0.5}
@@ -81,7 +81,7 @@ df = ResultsDataFrame(energy_system=heating_system)
 
 idx = pd.IndexSlice
 # This will give the heat input into the heat balance from all units
-heat_df = df.loc[idx['heat_balance', 'input', :, :]].unstack([0, 1, 2])
+heat_df = df.loc[idx['heat_balance', 'to_bus', :, :]].unstack([0, 1, 2])
 heat_df.columns = heat_df.columns.droplevel([0, 1, 2])
 print(heat_df.head(20))
 
