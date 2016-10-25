@@ -15,7 +15,11 @@ import hesysopt.blocks as blocks
 
 # ############################ Grouping #######################################
 def constraint_grouping(node):
+    if (isinstance(node, solph.Storage) and
+        isinstance(node.investment, solph.Investment)):
+        return solph.blocks.InvestmentStorage
     if isinstance(node, solph.Storage):
+        return solph.blocks.Storage
         return solph.blocks.Storage
     if type(node) == ExtractionTurbine:
         return blocks.ExtractionTurbine
@@ -48,7 +52,8 @@ discrete_flow_grouping = groupings.FlowsWithNodes(
     filter=lambda stf: stf[2].discrete is not None)
 
 GROUPINGS = [constraint_grouping, standard_flow_grouping,
-             binary_flow_grouping, discrete_flow_grouping, ]
+             binary_flow_grouping, discrete_flow_grouping,
+             investment_flow_grouping]
 
 # ####################### classes dict for csv-reader #########################
 
