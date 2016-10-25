@@ -7,7 +7,7 @@
     `blocks` but also add nodes to already existing solph `blocks`.
 """
 import oemof.solph as solph
-from oemof import groupings as grp
+from oemof import groupings
 from hesysopt.nodes import (ExtractionTurbine, BackpressureTurbine,
                    ExtractionTurbineExtended, BackpressureTurbineExtended,
                    Boiler, ElectricalBus)
@@ -17,60 +17,38 @@ import hesysopt.blocks as blocks
 def constraint_grouping(node):
     if isinstance(node, solph.Storage):
         return solph.blocks.Storage
-    if (isinstance(node, ExtractionTurbine) and not
-            isinstance(node, ExtractionTurbineExtended)):
+    if type(node) == ExtractionTurbine:
         return blocks.ExtractionTurbine
-    if isinstance(node, ExtractionTurbineExtended):
+    if type(node) == ExtractionTurbineExtended:
         return blocks.ExtractionTurbineExtended
-    if (isinstance(node, BackpressureTurbine) and not
-            isinstance(node, BackpressureTurbineExtended)):
+    if  type(node) == BackpressureTurbine:
         return blocks.BackpressureTurbine
-    if isinstance(node, BackpressureTurbineExtended):
+    if type(node) == BackpressureTurbineExtended:
         return blocks.BackpressureTurbineExtended
-    if isinstance(node, Boiler):
+    if type(node) == Boiler:
         return solph.blocks.LinearTransformer
-    if (isinstance(node, solph.Bus) and node.balanced):
+    if type(node) == solph.Bus and node.balanced:
         return solph.blocks.Bus
 
 
-def standard_flow_key(n):
-    for f in n.outputs.values():
-        if f.investment is None:
-            return solph.blocks.Flow
+investment_flow_grouping = groupings.FlowsWithNodes(
+    constant_key=solph.blocks.InvestmentFlow,
+    # stf: a tuple consisting of (source, target, flow), so stf[2] is the flow.
+    filter=lambda stf: stf[2].investment is not None)
 
-def standard_flows(n):
-    return [(n, t, f) for (t, f) in n.outputs.items()
-            if f.investment is None]
+standard_flow_grouping = groupings.FlowsWithNodes(
+    constant_key=solph.blocks.Flow)
 
-def merge_standard_flows(n, group):
-    group.extend(n)
-    return group
+binary_flow_grouping = groupings.FlowsWithNodes(
+    constant_key=solph.blocks.BinaryFlow,
+    filter=lambda stf: stf[2].binary is not None)
 
-standard_flow_grouping = grp.Grouping(
-    key=standard_flow_key,
-    value=standard_flows,
-    merge=merge_standard_flows)
-
-def binary_flow_key(n):
-    for f in n.outputs.values():
-        if f.binary is not None:
-            return solph.blocks.BinaryFlow
-
-def binary_flows(n):
-    return [(n, t, f) for (t, f) in n.outputs.items()
-            if f.binary is not None]
-
-def merge_binary_flows(n, group):
-    group.extend(n)
-    return group
-
-binary_flow_grouping = grp.Grouping(
-    key=binary_flow_key,
-    value=binary_flows,
-    merge=merge_binary_flows)
+discrete_flow_grouping = groupings.FlowsWithNodes(
+    constant_key=solph.blocks.DiscreteFlow,
+    filter=lambda stf: stf[2].discrete is not None)
 
 GROUPINGS = [constraint_grouping, standard_flow_grouping,
-             binary_flow_grouping]
+             binary_flow_grouping, discrete_flow_grouping, ]
 
 # ####################### classes dict for csv-reader #########################
 
