@@ -70,7 +70,7 @@ def create_energysystem(nodes, **arguments):
     datetime_index = pd.date_range(start=arguments['--start'],
                                    end=arguments['--end'],
                                    freq=arguments['--freq'])
-    es = EnergySystem(entities=nodes, time_idx=datetime_index,
+    es = EnergySystem(entities=nodes, timeindex=datetime_index,
                       groupings=GROUPINGS)
     es.timestamp = time.strftime("%Y%m%d-%H:%M:%S")
 
