@@ -15,9 +15,9 @@ from hesysopt.helpers import GROUPINGS, ADD_SOLPH_BLOCKS
 
 # ############################### EnergySystem ################################
 # see pandas date_range documentation for details
-datetime_index = pd.date_range('1/1/2016', periods=24, freq='1H')
+datetime_index = pd.date_range('1/1/2016', periods=4, freq='1H')
 
-heating_system = EnergySystem(groupings=GROUPINGS, time_idx=datetime_index)
+heating_system = EnergySystem(groupings=GROUPINGS, timeindex=datetime_index)
 
 
 # ################################# Buses #####################################
@@ -51,7 +51,7 @@ extr = ExtractionTurbine(label="EXT", conversion_factors={belec: 0.514,
                                            variable_costs=10)},
                         outputs={belec: Flow(nominal_value=10,
                                              variable_costs=-5, min=0.5,
-                                             discrete=BinaryFlow()),
+                                             binary=BinaryFlow()),
                                  bheat: Flow()},
                         power_loss_index=0.12,
                         efficiency_condensing=0.55)
@@ -62,7 +62,7 @@ backpr = BackpressureTurbine(label="BP",
                                                 variable_costs=10)},
                              outputs={belec: Flow(nominal_value=10,
                                                   variable_costs=-5, min=0.5,
-                                                  discrete=BinaryFlow()),
+                                                  binary=BinaryFlow()),
                                       bheat: Flow()},
                              conversion_factors={belec: 0.4,
                                                  bheat: 0.5}
