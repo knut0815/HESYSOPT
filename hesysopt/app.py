@@ -182,7 +182,7 @@ def main(**arguments):
 ############################## main ###########################################
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='HESYSOPT v0.0.1')
-    #es, om, df = main(**arguments)
+    es, om, df = main(**arguments)
 
 
 
