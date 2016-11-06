@@ -107,7 +107,7 @@ def simulate(es=None, **arguments):
 
     om.solve(arguments['--solver'],
              solve_kwargs={'tee':arguments['--solver-output']},
-             cmdline_options= {"mipgap":0.0})
+             cmdline_options= {"mipgap":arguments.get('--mipgap', 0)})
 
     om.results()
 
@@ -132,6 +132,11 @@ def write_results(es, om, **arguments):
 
     return df
 
+def dump_energysystem(es, **arguments):
+    """
+    """
+    dump_path = os.path.join(arguments['--output-directory'])
+    es.dump(dpath=dump_path, filename='heatingsystem.pkl')
 
 def main_path(**arguments):
     """Sets the main path for the simulation results, lpfiles etc.
@@ -177,7 +182,7 @@ def main(**arguments):
 ############################## main ###########################################
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='HESYSOPT v0.0.1')
-    es, om, df = main(**arguments)
+    #es, om, df = main(**arguments)
 
 
 

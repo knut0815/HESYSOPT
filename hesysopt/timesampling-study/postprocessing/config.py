@@ -14,7 +14,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 plt.style.use('ggplot')
 
-scenarios = ['base']
+scenarios = ['1HBP', '2HBP', '4HBP']
 homepath = os.path.expanduser('~')
 
 main_df = pd.DataFrame()
@@ -25,24 +25,23 @@ for s in scenarios:
     tmp['Scenario'] = s
     main_df = pd.concat([main_df, tmp])
 
-main_df.rename(columns={'bus_label':'Balance',
-                        'type':'Direction',
-                        'obj_label':'Unit',
-                        'datetime': 'Date'}, inplace=True)
-
 # restore orginial df multiindex
-main_df.set_index(['Scenario', 'Balance', 'Direction', 'Unit', 'Date'],
+main_df.set_index(['Scenario', 'bus_label', 'type', 'obj_label', 'datetime'],
                    inplace=True)
 
 # set colors
-components = main_df.index.get_level_values('Unit').unique()
+components = main_df.index.get_level_values('obj_label').unique()
 colors = dict(zip(components,
-                  sns.color_palette("coolwarm_r", len(components))
-                 )
-            )
+                  sns.color_palette("coolwarm_r", len(components))))
 
 # select heat flows from main_df
 idx = pd.IndexSlice
-heat_df = main_df.loc[idx[scenarios, 'heat_balance', 'to_bus', :, :]].unstack([0, 1, 2, 3])
-heat_df.columns = heat_df.columns.droplevel([0, 2, 3])
+heat_df = main_df.loc[idx[scenarios,
+                          'heat_balance',
+                          'to_bus', :, :]].unstack(['Scenario', 'obj_label'])
+heat_df.columns = heat_df.columns.droplevel([0])
 heat_df.columns.name = 'Unit'
+
+el_df = main_df.loc[idx[scenarios,
+                        'electrical_balance',
+                        'to_bus', :, :]].unstack(['Scenario', 'obj_label'])
