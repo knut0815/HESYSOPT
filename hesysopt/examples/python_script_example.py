@@ -11,7 +11,7 @@ from oemof.solph import (Flow, OperationalModel, Bus, Sink, EnergySystem,
 from oemof.outputlib import ResultsDataFrame
 # heat system optimizatio import
 from hesysopt.nodes import ExtractionTurbine, BackpressureTurbine, Boiler
-from hesysopt.helpers import GROUPINGS, ADD_SOLPH_BLOCKS
+from hesysopt.groupings import GROUPINGS, ADD_SOLPH_BLOCKS
 
 # ############################### EnergySystem ################################
 # see pandas date_range documentation for details
