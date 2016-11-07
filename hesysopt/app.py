@@ -39,7 +39,7 @@ from oemof.outputlib import ResultsDataFrame
 from oemof.solph import OperationalModel, EnergySystem, NodesFromCSV
 
 # heat system optimizatio import
-from hesysopt.helpers import (GROUPINGS, ADD_CSV_CLASSES,
+from hesysopt.groupings import (GROUPINGS, ADD_CSV_CLASSES,
                               ADD_CSV_SEQ_ATTRIBUTES, ADD_SOLPH_BLOCKS)
 
 logger.define_logging()
