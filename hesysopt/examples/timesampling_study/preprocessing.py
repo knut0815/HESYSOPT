@@ -4,13 +4,7 @@
 import numpy as np
 import pandas as pd
 import functions as func
-from oemof.solph.toolbox import sequence_tools as tools
 
-resample = False
-
-if resample:
-    tools.resample_sequences(seq_path='data', output_path='data/samples',
-                             samples=['2H','3H','4H', '5H', '6H'])
 
 # Costs:
 # https://www.ffe.de/download/wissen/349_Flexibilisierung_KWK/Schmid_FfE_KWK-Infotag.pdf
