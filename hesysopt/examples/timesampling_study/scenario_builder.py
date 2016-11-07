@@ -4,11 +4,11 @@
 """
 import os
 import pandas as pd
-from oemof.solph.toolbox import sequence_tools as tools
+from oemof.solph.inputlib import csv_tools as tools
 
 
 base_nodes_df = pd.read_csv('data/basefile_BP.csv', index_col=[0,1,2,3])
-base_seq_df = pd.read_csv('data/basefile_BP_seq.csv', header=[0,1,2,3])
+base_seq_df = pd.read_csv('data/basefile_BP_seq.csv', header=[0,1,2,3,4])
 
 # fuel costs for gas
 costs = {'LOW': 55,
@@ -39,10 +39,12 @@ for s in scenarios.keys():
     base_nodes_df.ix[('Storage', 'STO', 'STO', 'heat_balance'),
                 'nominal_capacity'] = nominal_capacity
 
-    tools.resample_sequences(seq_base_file='data/basefile_BP_seq.csv',
-                             output_path='data/sequences',
-                             file_prefix=str(year)+'_',
-                             samples=[freq])
+    tools.resample_sequence(seq_base_file='data/basefile_BP_seq.csv',
+                            output_path='data/sequences',
+                            file_prefix=str(year)+'_',
+                            file_suffix='_',
+                            samples=[freq],
+                            header=[0,1,2,3,4])
 
     # assign extracted values
     scenarios[s]['freq'] = freq
