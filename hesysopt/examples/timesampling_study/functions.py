@@ -5,7 +5,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
-def storage_energy_content(Tmax=90, Tmin=70, V=1000, rho=980, cp=4.182, k=3600):
+def storage_energy2volume(Tmax=90, Tmin=70, U=1000, rho=980, cp=4.182, k=3600):
+    """
+    param T_max : Maximum storage Temperature in celsius
+    param T_min : Minimum storage temperature in celsius
+    param U : volumen of storage content in kWh
+    param rho : density
+    param cp: specfic heat capacity of storage content in kJ/kg C
+    param k: factor to convert kJ -> kWh in kJ/kWh
+    """
+    V = U / (rho * cp * (Tmax - Tmin) / k)
+    return V
+
+def storage_volume2energy(Tmax=90, Tmin=70, V=1000, rho=980, cp=4.182, k=3600):
     """
     param T_max : Maximum storage Temperature in celsius
     param T_min : Minimum storage temperature in celsius
@@ -15,13 +27,7 @@ def storage_energy_content(Tmax=90, Tmin=70, V=1000, rho=980, cp=4.182, k=3600):
     param k: factor to convert kJ -> kWh in kJ/kWh
     """
     U = V * rho * cp * (Tmax - Tmin) / k
-    return(U)
-
-
-def storage_investment_costs(V=1000, size='small'):
-    coeff = investment_fit(size=size)
-    I = coeff[0] * V**coeff[1] # * m
-    return(I)
+    return U
 
 def investment_fit(spec_invest=None, size=None, plot=False):
     """
@@ -35,8 +41,10 @@ def investment_fit(spec_invest=None, size=None, plot=False):
                                [1250, 900, 543, 250, 100]])
 
     if size == 'small':
-        spec_invest =  np.array([[35, 50,  100, 240, 260, 340,  380, 440, 590, 700],
-                                 [2000, 1500, 1250, 1054, 988, 950, 873, 759, 696, 543]])
+        spec_invest =  np.array([[35, 50,  100, 240, 260, 340,  380,
+                                  440, 590, 700],
+                                 [2000, 1500, 1250, 1054, 988, 950, 873,
+                                  759, 696, 543]])
 
 
     def func(x, a, b):
@@ -49,16 +57,3 @@ def investment_fit(spec_invest=None, size=None, plot=False):
                  func(range(0, max(spec_invest[0,:]), 10), *popt))
 
     return(popt)
-
-if __name__ == "__main__":
-
-    U = storage_energy_content(Tmax=80, Tmin=50, V=390, cp=4.182, k=3600)
-    print(str(U) +" kWh")
-
-    volumen_discrete = np.arange(35, 1000, 100)
-    U_discrete = [storage_energy_content(V=v)/1000 for v in volumen_discrete]
-    c_spec_discrete = [storage_investment_costs(v) for v in volumen_discrete]
-
-    volumen_cont =  np.arange(35, 1000, 1)
-    U_cont = [storage_energy_content(V=v)/1000 for v in volumen_cont]
-    c_spec_cont = [storage_investment_costs(v) for v in volumen_cont]
