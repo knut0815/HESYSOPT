@@ -40,23 +40,25 @@ base_seq_df = pd.read_csv('data/basefile_BP_seq.csv', header=[0,1,2,3,4])
 costs = {'LOW': 55,
          'MED': 70,
          'HIGH': 95}
+
 # scenario names
-scenarios = {'1MWh_LOW-1H_2010-BP': {},
-             '2MWh_LOW-1H_2010-BP': {},
-             '4MWh_LOW-1H_2010-BP': {},
-             '10MWh_LOW-1H_2010-BP': {},
-             '14MWh_LOW-1H_2010-BP': {},
-             '17MWh_LOW-2H_2010-BP': {}}
+scenarios = {'1MWh_LOW-2010_1H-BP': {},
+             '2MWh_LOW-2010_1H-BP': {},
+             '4MWh_LOW-2010_1H-BP': {},
+             '10MWh_LOW-2010_1H-BP': {},
+             '14MWh_LOW-2010_1H-BP': {},
+             '17MWh_LOW-2010_2H-BP': {}}
+
 
 for s in scenarios.keys():
     paths = s.split('-')
-    freq = paths[1].split('_')[0]
-    year = paths[1].split('_')[1]
+    freq = paths[1].split('_')[1]
+    year = paths[1].split('_')[0]
     fuel_costs_key = paths[0].split('_')[1]
     nominal_capacity = int(paths[0].split('_')[0].strip('MWh'))
     fuel_costs = costs[fuel_costs_key]
     node_path = os.path.join('data/', paths[0]+'.csv')
-    seq_path = os.path.join('data/sequences', paths[1]+'_seq.csv')
+    seq_path = os.path.join('data/sequences', paths[1]+'-BP_seq.csv')
 
     # alter base - pandas df
     base_nodes_df.ix[('Source', 'GAS', 'GAS', 'gas_balance'),
@@ -69,7 +71,7 @@ for s in scenarios.keys():
     tools.resample_sequence(seq_base_file='data/basefile_BP_seq.csv',
                             output_path='data/sequences',
                             file_prefix=str(year)+'_',
-                            file_suffix='',
+                            file_suffix='-BP_seq',
                             samples=[freq],
                             header=[0,1,2,3,4])
 
