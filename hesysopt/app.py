@@ -64,13 +64,13 @@ def create_nodes(**arguments):
                          additional_seq_attributes=ADD_CSV_SEQ_ATTRIBUTES)
     return nodes
 
-def create_energysystem(nodes, **arguments):
+def create_energysystem(**arguments):
     """Create the energysystem.
     """
     datetime_index = pd.date_range(start=arguments['--start'],
                                    end=arguments['--end'],
                                    freq=arguments['--freq'])
-    es = EnergySystem(entities=nodes, timeindex=datetime_index,
+    es = EnergySystem(timeindex=datetime_index,
                       groupings=GROUPINGS)
     es.timestamp = time.strftime("%Y%m%d-%H:%M:%S")
 
