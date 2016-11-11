@@ -12,8 +12,8 @@ from hesysopt.app import (create_nodes, create_energysystem, simulate,
                           main_path, write_results, dump_energysystem)
 
 def run_scenario(sc, scenarios):
-    """ Runs scenario 
-    
+    """ Runs scenario
+
     Parameter
     ----------
     sc : string
@@ -21,7 +21,7 @@ def run_scenario(sc, scenarios):
     scenarios : dict
         Dictionary with scenario defintion build by scenario_builder
     """
-        
+
     ####################### configure app #####################################
     arguments = {}
     arguments['--scenario_name'] = sc
@@ -53,18 +53,13 @@ def run_scenario(sc, scenarios):
     nodes = create_nodes(**arguments)
 
     # get the storage object
-    storage = [n for n in nodes.values() if n.label == 'STO'][0]
-    storage.nominal_capacity = scenarios[sc]['nominal_capacity']
-
-    #storage.fixed_costs = scenarios[sc]['fixed_costs]
+    #storage = [n for n in nodes.values() if n.label == 'STO'][0]
     # set the investment costs base points
     #storage.investment = Investment(ep_costs=basepoints)
 
     # create energy system
     es = create_energysystem(nodes=[n for n in nodes.values()], **arguments)
 
-    gasflow = list(es.groups['BP1'].inputs.values())[0]
-    gasflow.variable_costs = scenarios[sc]['fuel_costs']
     # create optimization model and solve it and write results back to energys
     om = simulate(es=es, **arguments)
 
@@ -76,6 +71,7 @@ def run_scenario(sc, scenarios):
 
     #om.write(io_options={'symbolic_solver_labels': True})
     logging.info("Done with scenario {0}!".format(sc))
+
     return om, es
 
 

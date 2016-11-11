@@ -56,7 +56,7 @@ for s in scenarios.keys():
     nominal_capacity = int(paths[0].split('_')[0].strip('MWh'))
     fuel_costs = costs[fuel_costs_key]
     node_path = os.path.join('data/', paths[0]+'.csv')
-    seq_path = os.path.join('data/', paths[1]+'_seq.csv')
+    seq_path = os.path.join('data/sequences', paths[1]+'_seq.csv')
 
     # alter base - pandas df
     base_nodes_df.ix[('Source', 'GAS', 'GAS', 'gas_balance'),
@@ -69,7 +69,7 @@ for s in scenarios.keys():
     tools.resample_sequence(seq_base_file='data/basefile_BP_seq.csv',
                             output_path='data/sequences',
                             file_prefix=str(year)+'_',
-                            file_suffix='_',
+                            file_suffix='',
                             samples=[freq],
                             header=[0,1,2,3,4])
 
