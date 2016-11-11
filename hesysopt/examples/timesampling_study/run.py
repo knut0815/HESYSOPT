@@ -7,7 +7,7 @@ node manipulation.
 import os
 import pdb
 import logging
-from oemof.solph import Investment
+#from oemof.solph import Investment
 from hesysopt.app import (create_nodes, create_energysystem, simulate,
                           main_path, write_results, dump_energysystem)
 
@@ -28,7 +28,7 @@ def run_scenario(sc, scenarios):
     arguments['--node_data'] = scenarios[sc]['node_path']
     arguments['--sequence_data'] = scenarios[sc]['seq_path']
     arguments['--start'] = '01/01/2014T00:00'
-    arguments['--end'] = '12/31/2014T23:00'
+    arguments['--end'] = '01/07/2014T23:00'
     arguments['--freq'] = scenarios[sc]['freq']
     arguments['--loglevel'] = 'INFO'
     arguments['--solver-output'] = 'True'
@@ -50,15 +50,16 @@ def run_scenario(sc, scenarios):
     #if sc == '4HBP':
     #    pdb.set_trace()
     # create the nodes from csv-file
-    nodes = create_nodes(**arguments)
-
     # get the storage object
     #storage = [n for n in nodes.values() if n.label == 'STO'][0]
     # set the investment costs base points
     #storage.investment = Investment(ep_costs=basepoints)
-
+    #pdb.set_trace()
     # create energy system
-    es = create_energysystem(nodes=[n for n in nodes.values()], **arguments)
+    es = create_energysystem(**arguments)
+
+    # these will be added automatically
+    create_nodes(**arguments)
 
     # create optimization model and solve it and write results back to energys
     om = simulate(es=es, **arguments)
@@ -74,4 +75,7 @@ def run_scenario(sc, scenarios):
 
     return om, es
 
-
+if __name__ == "__main__":
+    from scenario_builder import scenarios
+    for k in scenarios.keys():
+        run_scenario(sc=k, scenarios=scenarios)
