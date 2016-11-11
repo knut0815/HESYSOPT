@@ -27,12 +27,12 @@ def restore(scenarios=['1HBP', '2HBP', '4HBP']):
         main_df = pd.concat([main_df, tmp])
 
     # restore orginial df multiindex
-    main_df.set_index(['Scenario', 'bus_label', 'type', 'obj_label', 'datetime'],
+    main_df.set_index(['bus_label', 'type', 'obj_label', 'datetime', 'Scenario'],
                        inplace=True)
 
     # set colors
     components = main_df.index.get_level_values('obj_label').unique()
     colors = dict(zip(components,
                       sns.color_palette("coolwarm_r", len(components))))
-    return main_df, scenarios, colors
+    return main_df, colors
 
