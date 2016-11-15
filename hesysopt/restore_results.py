@@ -36,6 +36,6 @@ def restore(scenarios=['1HBP', '2HBP', '4HBP']):
     colors['components'] = dict(zip(components,
                              sns.color_palette("coolwarm_r", len(components))))
     colors['scenarios'] = dict(zip(scenarios,
-                          sns.color_palette("muted", len(components))))
+                          sns.color_palette("muted", len(scenarios))))
     return main_df, scenarios, colors
 
