@@ -13,7 +13,7 @@ Options:
       --scenario_name=NAME      Name of the scenario.
                                 [default: base]
       --solver=SOLVER           Solver to use to for optimization problem
-                                [default: glpk]
+                                [default: cbc]
       --solver-output=STREAM    Print the solver-output on console.
                                 [default: False]
       --output-directory=DIR    Directory where results, logs etc are stored.
@@ -183,7 +183,4 @@ def main(**arguments):
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='HESYSOPT v0.0.1')
     es, om, df = main(**arguments)
-
-
-
 
