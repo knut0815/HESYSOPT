@@ -9,4 +9,4 @@ To run the simple_example enter inside your console:
 
 
 If nothing else is specified, you will find the results
-inside a `hesysopt_simulation` directory inside your home directory.,
+inside a `hesysopt_simulation` directory inside your home directory.
