@@ -14,9 +14,9 @@ Options:
                                 [default: base]
       --solver=SOLVER           Solver to use to for optimization problem
                                 [default: glpk]
-      --solver-output           Print the solver-output on console.
+      --solver-output=STREAM    Print the solver-output on console.
                                 [default: False]
-      --output-directory        Directory where results, logs etc are stored.
+      --output-directory=DIR    Directory where results, logs etc are stored.
                                 Default is the home path of the system.
   -l, --loglevel=LOGLEVEL       Set the loglevel. Should be one of DEBUG, INFO,
                                 WARNING, ERROR or CRITICAL. [default: INFO]
