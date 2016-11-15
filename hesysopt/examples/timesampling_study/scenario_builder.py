@@ -41,26 +41,31 @@ costs = {'LOW': 55,
          'MED': 0,
          'HIGH': 95}
 
-scenarios = {}
+all_scenarios = {}
 # scenario names
-scenarios_2010 = {'1MWh_MED-2010_1H-BP': {},
+scenarios_2010_1H = {'1MWh_MED-2010_1H-BP': {},
                   '4MWh_MED-2010_1H-BP': {},
                   '10MWh_MED-2010_1H-BP': {}}
+scenarios_2010_2H =  {'1MWh_MED-2010_2H-BP': {},
+                      '4MWh_MED-2010_2H-BP': {},
+                      '10MWh_MED-2010_2H-BP': {}}
+scenarios_2010_3H =  {'1MWh_MED-2010_3H-BP': {},
+                      '4MWh_MED-2010_3H-BP': {},
+                      '10MWh_MED-2010_3H-BP': {}}
+scenarios_2010_4H =  {'1MWh_MED-2010_4H-BP': {},
+                      '4MWh_MED-2010_4H-BP': {},
+                      '10MWh_MED-2010_4H-BP': {}}
 scenarios_2015 =  {'1MWh_MED-2015_1H-BP': {},
                    '4MWh_MED-2015_1H-BP': {},
                    '10MWh_MED-2015_1H-BP': {}}
-scenarios_2013 =  {'1MWh_MED-2013_1H-BP': {},
-                   '4MWh_MED-2013_1H-BP': {},
-                   '10MWh_MED-2013_1H-BP': {}}
+#scenarios.update(scenarios_2010)
+#scenarios.update(scenarios_2015)
+all_scenarios.update(scenarios_2010_1H)
+all_scenarios.update(scenarios_2010_2H)
+all_scenarios.update(scenarios_2010_3H)
+all_scenarios.update(scenarios_2010_4H)
 
-scenarios.update(scenarios_2010)
-scenarios.update(scenarios_2015)
-scenarios.update(scenarios_2013)
-             #'14MWh_MED-2010_1H-BP': {},
-             #'17MWh_MED-2010_1H-BP': {}}
-
-
-for s in scenarios.keys():
+for s in all_scenarios.keys():
 
     paths = s.split('-')
     freq = paths[1].split('_')[1]
@@ -87,9 +92,9 @@ for s in scenarios.keys():
                             header=[0,1,2,3,4])
 
     # assign extracted values
-    scenarios[s]['freq'] = freq
-    scenarios[s]['node_path'] = node_path
-    scenarios[s]['seq_path'] = seq_path
+    all_scenarios[s]['freq'] = freq
+    all_scenarios[s]['node_path'] = node_path
+    all_scenarios[s]['seq_path'] = seq_path
     #scenarios[s]['fuel_costs'] = fuel_costs
     #scenarios[s]['nominal_capacity'] = nominal_capacity
 

@@ -63,7 +63,8 @@ def run_scenario(sc, scenarios):
 
     # create optimization model and solve it and write results back to energys
     om = simulate(es=es, **arguments)
-    om.write(sc+'.lp',io_options={'symbolic_solver_labels':True})
+    if arguments['--solver-output'] == 'DEBUG':
+        om.write(sc+'.lp',io_options={'symbolic_solver_labels':True})
     # write results to csv file
     write_results(es=es, om=om, **arguments)
 
@@ -76,6 +77,6 @@ def run_scenario(sc, scenarios):
     return om, es
 
 if __name__ == "__main__":
-    from scenario_builder import scenarios_2013 as scenarios
-    for k in scenarios.keys():
-        run_scenario(sc=k, scenarios=scenarios)
+    from scenario_builder import all_scenarios
+    for k in all_scenarios.keys():
+        run_scenario(sc=k, scenarios=all_scenarios)
