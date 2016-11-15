@@ -31,8 +31,11 @@ def restore(scenarios=['1HBP', '2HBP', '4HBP']):
                        inplace=True)
 
     # set colors
+    colors = {}
     components = main_df.index.get_level_values('obj_label').unique()
-    colors = dict(zip(components,
-                      sns.color_palette("coolwarm_r", len(components))))
+    colors['components'] = dict(zip(components,
+                             sns.color_palette("coolwarm_r", len(components))))
+    colors['scenarios'] = dict(zip(scenarios,
+                          sns.color_palette("muted", len(components))))
     return main_df, scenarios, colors
 
