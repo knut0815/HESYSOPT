@@ -6,22 +6,23 @@ import pandas as pd
 import seaborn
 
 def sorted_curves(df, colors):
-        df.fillna(method='ffill', inplace=True)
-        dct = {c: df.sort_values(by=c, ascending=False)[c].values for c in df}
-        df_sorted = pd.DataFrame(dct, columns=df.columns)
-        axes = df_sorted.plot(lw=2, title='Sorted heat curves',
-                              color=list(map(colors.get, df.columns)))
-        axes.set_xlabel('Hours')
-        axes.set_ylabel('Output in MW')
-
+    df.fillna(method='ffill', inplace=True)
+    dct = {c: df.sort_values(by=c, ascending=False)[c].values for c in df}
+    df_sorted = pd.DataFrame(dct, columns=df.columns)
+    ax = df_sorted.plot(lw=2, title='Sorted heat curves',
+                          color=list(map(colors.get, df.columns)))
+    ax.set_xlabel('Hours')
+    ax.set_ylabel('Output in MW')
+    return ax
 
 def summed_production(df, colors):
     df.fillna(method='ffill', inplace=True)
     summed = df.sum() * 1e-3 # to GWh
     ax = summed.plot(kind='bar', title="Total heat production by Unit",
-                     colors=list(map(colors.get, df.columns)))
+                     color=list(map(colors.get, df.columns)))
     ax.set_ylabel("Output in GWh")
     ax.set_xlabel("Unit")
+    return ax
 
 def seaborn_summed_production(df, colors):
     # factor plot with seabor for multiple scenarios

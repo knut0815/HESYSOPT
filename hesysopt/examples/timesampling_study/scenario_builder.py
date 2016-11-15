@@ -49,7 +49,6 @@ scenarios_2010 = {'1MWh_MED-2010_1H-BP': {},
 scenarios_2015 =  {'1MWh_MED-2015_1H-BP': {},
                    '4MWh_MED-2015_1H-BP': {},
                    '10MWh_MED-2015_1H-BP': {}}
-
 scenarios_2013 =  {'1MWh_MED-2013_1H-BP': {},
                    '4MWh_MED-2013_1H-BP': {},
                    '10MWh_MED-2013_1H-BP': {}}
