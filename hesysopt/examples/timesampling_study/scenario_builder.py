@@ -34,23 +34,35 @@ def annual_costs(I=None, n=20, wacc=0.07):
     return annual_costs
 
 base_nodes_df = pd.read_csv('data/basefile_BP.csv', index_col=[0,1,2,3])
-base_seq_df = pd.read_csv('data/basefile_BP_seq.csv', header=[0,1,2,3,4])
+
 
 # fuel costs for gas
 costs = {'LOW': 55,
-         'MED': 70,
+         'MED': 0,
          'HIGH': 95}
 
+scenarios = {}
 # scenario names
-scenarios = {'1MWh_LOW-2010_1H-BP': {},
-             '2MWh_LOW-2010_1H-BP': {},
-             '4MWh_LOW-2010_1H-BP': {},
-             '10MWh_LOW-2010_1H-BP': {},
-             '14MWh_LOW-2010_1H-BP': {},
-             '17MWh_LOW-2010_2H-BP': {}}
+scenarios_2010 = {'1MWh_MED-2010_1H-BP': {},
+                  '4MWh_MED-2010_1H-BP': {},
+                  '10MWh_MED-2010_1H-BP': {}}
+scenarios_2015 =  {'1MWh_MED-2015_1H-BP': {},
+                   '4MWh_MED-2015_1H-BP': {},
+                   '10MWh_MED-2015_1H-BP': {}}
+
+scenarios_2013 =  {'1MWh_MED-2013_1H-BP': {},
+                   '4MWh_MED-2013_1H-BP': {},
+                   '10MWh_MED-2013_1H-BP': {}}
+
+scenarios.update(scenarios_2010)
+scenarios.update(scenarios_2015)
+scenarios.update(scenarios_2013)
+             #'14MWh_MED-2010_1H-BP': {},
+             #'17MWh_MED-2010_1H-BP': {}}
 
 
 for s in scenarios.keys():
+
     paths = s.split('-')
     freq = paths[1].split('_')[1]
     year = paths[1].split('_')[0]
@@ -68,7 +80,7 @@ for s in scenarios.keys():
     base_nodes_df.ix[('Storage', 'STO', 'STO', 'heat_balance'),
                 'fixed_costs'] = annual_costs(
                     I=storage_invest_costs(nominal_capacity))/nominal_capacity
-    tools.resample_sequence(seq_base_file='data/basefile_BP_seq.csv',
+    tools.resample_sequence(seq_base_file='data/basefile_BP_'+year+'_seq.csv',
                             output_path='data/sequences',
                             file_prefix=str(year)+'_',
                             file_suffix='-BP_seq',

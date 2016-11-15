@@ -27,8 +27,8 @@ def run_scenario(sc, scenarios):
     arguments['--scenario_name'] = sc
     arguments['--node_data'] = scenarios[sc]['node_path']
     arguments['--sequence_data'] = scenarios[sc]['seq_path']
-    arguments['--start'] = '01/01/2014T00:00'
-    arguments['--end'] = '01/07/2014T23:00'
+    arguments['--start'] = '01/01/2010T00:00'
+    arguments['--end'] = '12/31/2010T23:00'
     arguments['--freq'] = scenarios[sc]['freq']
     arguments['--loglevel'] = 'INFO'
     arguments['--solver-output'] = 'True'
@@ -63,7 +63,7 @@ def run_scenario(sc, scenarios):
 
     # create optimization model and solve it and write results back to energys
     om = simulate(es=es, **arguments)
-
+    om.write(sc+'.lp',io_options={'symbolic_solver_labels':True})
     # write results to csv file
     write_results(es=es, om=om, **arguments)
 
@@ -76,6 +76,6 @@ def run_scenario(sc, scenarios):
     return om, es
 
 if __name__ == "__main__":
-    from scenario_builder import scenarios
+    from scenario_builder import scenarios_2013 as scenarios
     for k in scenarios.keys():
         run_scenario(sc=k, scenarios=scenarios)
