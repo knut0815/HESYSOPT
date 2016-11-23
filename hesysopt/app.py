@@ -130,6 +130,11 @@ def write_results(es, om, **arguments):
         df_out = df.slice_by(bus_label=b).unstack([0,1,2])
         df_out.to_csv(os.path.join(resultspath, ''.join([b, '.csv'])))
 
+    d = {'objective': es.results.objective,
+         'scenario_name': arguments['--scenario_name']}
+    objective = pd.DataFrame(d, index=[0])
+    objective.to_csv(os.path.join(resultspath, 'objective.csv'), index=False)
+
     return df
 
 def dump_energysystem(es, **arguments):

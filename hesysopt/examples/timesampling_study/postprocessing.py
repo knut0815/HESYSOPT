@@ -3,7 +3,7 @@
 
 """
 import pandas as pd
-import seaborn
+import seaborn as sns
 
 def sorted_curves(df, colors):
     df.fillna(method='ffill', inplace=True)
@@ -26,15 +26,25 @@ def summed_production(df, colors):
 
 def seaborn_summed_production(df, colors):
     # factor plot with seabor for multiple scenarios
-    seaborn.set(style='ticks')
+    sns.set(style='ticks')
     summed = df.sum().reset_index()
-    fg = seaborn.factorplot(x='Unit',
+    fg = sns.factorplot(x='Unit',
                             y=0, col='Scenario', data=summed, kind='bar',
                             palette=list(map(colors.get, df.columns)))
                             # hue='Scenario'
     fg.set_ylabels('Heat in GWh')
 
-#
+def compare_objectives(df, colors):
+    x = pd.concat([df,
+                   df['scenario_name'].apply(lambda df:
+                                             pd.Series(df.split('_')))], axis=1)
+    x.rename(columns={0: 'storage', 1: 'year', 2: 'sample'}, inplace=True)
+
+    g = sns.factorplot(y="objective", x='storage', #hue='year',
+                       col="sample", col_wrap=4,
+                       data=x,
+                       kind="bar", size=2.5, aspect=.8)
+    return x
 #from bokeh.charts import Area, show, vplot, output_file, defaults, Step
 #from hesysopt.plots.config import heat_df, colors, pd
 #from bokeh.palettes import brewer

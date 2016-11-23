@@ -19,16 +19,26 @@ def restore(scenarios=['1HBP', '2HBP', '4HBP']):
     homepath = os.path.expanduser('~')
 
     main_df = pd.DataFrame()
+    objective_df = pd.DataFrame()
     for s in scenarios:
+        # restore dispatch results
         resultspath = os.path.join(homepath, 'hesysopt_simulation', s, 'results',
                                    'all_results.csv')
         tmp = pd.read_csv(resultspath)
         tmp['Scenario'] = s
         main_df = pd.concat([main_df, tmp])
 
+        # restore objective values
+        objective_path = os.path.join(homepath, 'hesysopt_simulation', s,
+                                      'results', 'objective.csv')
+        tmp_obj = pd.read_csv(objective_path)
+        tmp_obj['Scenario'] = s
+        objective_df = pd.concat([objective_df, tmp_obj])
+
     # restore orginial df multiindex
     main_df.set_index(['bus_label', 'type', 'obj_label', 'datetime', 'Scenario'],
                        inplace=True)
+    objective_df.set_index('Scenario', inplace=True)
 
     # set colors
     colors = {}
@@ -37,6 +47,7 @@ def restore(scenarios=['1HBP', '2HBP', '4HBP']):
                              sns.color_palette("coolwarm_r", len(components))))
     colors['scenarios'] = dict(zip(scenarios,
                           sns.color_palette("muted", len(scenarios))))
-    return main_df, scenarios, colors
+    results = {'objective': objective_df, 'dispatch':main_df}
+    return results, scenarios, colors
 
 

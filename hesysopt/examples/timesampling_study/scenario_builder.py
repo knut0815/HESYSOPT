@@ -44,8 +44,8 @@ costs = {'LOW': 55,
 all_scenarios = {}
 # scenario names
 scenarios_2010_1H = {'1MWh_MED-2010_1H-BP': {},
-                  '4MWh_MED-2010_1H-BP': {},
-                  '10MWh_MED-2010_1H-BP': {}}
+                     '4MWh_MED-2010_1H-BP': {},
+                     '10MWh_MED-2010_1H-BP': {}}
 scenarios_2010_2H =  {'1MWh_MED-2010_2H-BP': {},
                       '4MWh_MED-2010_2H-BP': {},
                       '10MWh_MED-2010_2H-BP': {}}
@@ -58,8 +58,7 @@ scenarios_2010_4H =  {'1MWh_MED-2010_4H-BP': {},
 scenarios_2015 =  {'1MWh_MED-2015_1H-BP': {},
                    '4MWh_MED-2015_1H-BP': {},
                    '10MWh_MED-2015_1H-BP': {}}
-#scenarios.update(scenarios_2010)
-#scenarios.update(scenarios_2015)
+
 all_scenarios.update(scenarios_2010_1H)
 all_scenarios.update(scenarios_2010_2H)
 all_scenarios.update(scenarios_2010_3H)

@@ -67,6 +67,7 @@ def run_scenario(sc, scenarios):
         om.write(sc+'.lp',io_options={'symbolic_solver_labels':True})
     # write results to csv file
     write_results(es=es, om=om, **arguments)
+    #pdb.set_trace()
 
     # dump the energysystem
     dump_energysystem(es, **arguments)
