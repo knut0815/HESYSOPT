@@ -8,8 +8,11 @@ from scenario_builder import all_scenarios
 import postprocessing as pp
 
 
-results, scenarios, colors = restore(list(all_scenarios.keys()))
+select = [i for i in all_scenarios.keys() if 'MED' in i if '2015' in i]
+
+results, scenarios, colors = restore(select)
 main_df = results['dispatch']
+
 idx = pd.IndexSlice
 heat_df = main_df.loc[idx['heat_balance','to_bus',:,:,:]].unstack(['Scenario',
                                                                    'obj_label'])
@@ -24,14 +27,14 @@ el_df.columns = el_df.columns.droplevel([0])
 #                         colors=colors['components'])
 
 
-select = [i for i in all_scenarios.keys() if '10MWh' in i]
+
 #select = [i for i in all_scenarios.keys()]
-if False:
+if True:
     el_df.columns = el_df.columns.swaplevel(0,1)
     el_df.sort_index(axis=1, inplace=True)
     BP1 = el_df.loc[:, idx['BP1', select]]
     pp.sorted_curves(BP1, colors['scenarios'])
-if True:
+if False:
     heat_df.columns = heat_df.columns.swaplevel(0,1)
     OB = heat_df.ix[:,'OB']
     pp.sorted_curves(OB, colors['scenarios'])

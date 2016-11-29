@@ -37,32 +37,27 @@ base_nodes_df = pd.read_csv('data/basefile_BP.csv', index_col=[0,1,2,3])
 
 
 # fuel costs for gas
-costs = {'LOW': 55,
-         'MED': 0,
-         'HIGH': 95}
+costs = {'LOW': 35,
+         'MED': 45,
+         'HIGH': 55,
+         'VHIGH': 65}
 
 all_scenarios = {}
 # scenario names
-scenarios_2010_1H = {'1MWh_MED-2010_1H-BP': {},
-                     '4MWh_MED-2010_1H-BP': {},
-                     '10MWh_MED-2010_1H-BP': {}}
-scenarios_2010_2H =  {'1MWh_MED-2010_2H-BP': {},
-                      '4MWh_MED-2010_2H-BP': {},
-                      '10MWh_MED-2010_2H-BP': {}}
-scenarios_2010_3H =  {'1MWh_MED-2010_3H-BP': {},
-                      '4MWh_MED-2010_3H-BP': {},
-                      '10MWh_MED-2010_3H-BP': {}}
-scenarios_2010_4H =  {'1MWh_MED-2010_4H-BP': {},
-                      '4MWh_MED-2010_4H-BP': {},
-                      '10MWh_MED-2010_4H-BP': {}}
-scenarios_2015 =  {'1MWh_MED-2015_1H-BP': {},
-                   '4MWh_MED-2015_1H-BP': {},
-                   '10MWh_MED-2015_1H-BP': {}}
 
-all_scenarios.update(scenarios_2010_1H)
-all_scenarios.update(scenarios_2010_2H)
-all_scenarios.update(scenarios_2010_3H)
-all_scenarios.update(scenarios_2010_4H)
+size = ['0', '0.1', '0.25', '0.5', '1', '2', '4', '8']
+years = ['2010', '2013', '2015']
+hours = ['1H', '2H', '3H', '4H', '5H']
+
+all_scenarios = {}
+for s in size:
+    for y in years:
+        for h in hours:
+            for c in costs.keys():
+                name = s+'MWh_'+c+'-'+y+'_'+h+'-BP'
+                all_scenarios[name] = {}
+#all_scenarios = {'0.5MWh_MED-2015_4H-BP': {}}
+
 
 for s in all_scenarios.keys():
 
@@ -70,7 +65,7 @@ for s in all_scenarios.keys():
     freq = paths[1].split('_')[1]
     year = paths[1].split('_')[0]
     fuel_costs_key = paths[0].split('_')[1]
-    nominal_capacity = int(paths[0].split('_')[0].strip('MWh'))
+    nominal_capacity = float(paths[0].split('_')[0].strip('MWh'))
     fuel_costs = costs[fuel_costs_key]
     node_path = os.path.join('data/', paths[0]+'.csv')
     seq_path = os.path.join('data/sequences', paths[1]+'-BP_seq.csv')

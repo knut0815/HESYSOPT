@@ -40,8 +40,8 @@ def compare_objectives(df, colors):
                                              pd.Series(df.split('_')))], axis=1)
     x.rename(columns={0: 'storage', 1: 'year', 2: 'sample'}, inplace=True)
 
-    g = sns.factorplot(y="objective", x='storage', #hue='year',
-                       col="sample", col_wrap=4,
+    g = sns.factorplot(y="objective", x='storage', #hue='storage',
+                       col="sample", col_wrap=2,
                        data=x,
                        kind="bar", size=2.5, aspect=.8)
     return x
