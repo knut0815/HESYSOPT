@@ -1,9 +1,9 @@
 HESYSOPT stands for "(He)ating (Sys)tem (Op)timization (T)ool" and is a free, open source
 tool to simulate district heating systems. It is developed in Python and
-based on the the `Open Energy Modelling Framework (oemof) <https://github.com/oemof/oemof>`_.,
+based on the the `Open Energy Modelling Framework (oemof) <https://github.com/oemof/oemof>`_.
 The mathematical approach is mixed-integer-linear programming.
 
-Currently, it is developed and maintained at the Center for Sustainable Energy Systems (Zentrum für nachhaltige Energysysteme (ZNES)) in Flensburg.For questions on the data, you can use our `contact details <#contact>`_ below.
+Currently, it is developed and maintained at the Center for Sustainable Energy Systems (Zentrum für nachhaltige Energysysteme (ZNES)) in Flensburg. For questions on the data, you can use our `contact details <#contact>`_ below.
 
 This documentation is meant to explain the basic functionality and structured as follows:
 
@@ -66,6 +66,7 @@ example directory inside the repository and/or the documentation of oemof's
 
 You can also use the classes inside your code if you like scripting more than
 running the tool from the command-line.  
+
 
 Contribution
 ============
