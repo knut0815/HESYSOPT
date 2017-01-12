@@ -40,7 +40,8 @@ from oemof.solph import OperationalModel, EnergySystem, NodesFromCSV
 
 # heat system optimizatio import
 from hesysopt.groupings import (GROUPINGS, ADD_CSV_CLASSES,
-                              ADD_CSV_SEQ_ATTRIBUTES, ADD_SOLPH_BLOCKS)
+                              ADD_CSV_SEQ_ATTRIBUTES, ADD_SOLPH_BLOCKS,
+                              ADD_FLOW_ATTRIBUTES)
 
 logger.define_logging()
 
@@ -61,7 +62,8 @@ def create_nodes(**arguments):
                          file_nodes_flows_sequences=sequence_data,
                          delimiter=',',
                          additional_classes=ADD_CSV_CLASSES,
-                         additional_seq_attributes=ADD_CSV_SEQ_ATTRIBUTES)
+                         additional_seq_attributes=ADD_CSV_SEQ_ATTRIBUTES,
+                         additional_flow_attributes=ADD_FLOW_ATTRIBUTES)
     return nodes
 
 def create_energysystem(nodes, **arguments):
@@ -69,14 +71,14 @@ def create_energysystem(nodes, **arguments):
     """
     datetime_index = pd.date_range(start=arguments['--start'],
                                    end=arguments['--end'],
-                                   freq=arguments['--freq'])
+                                   freq=arguments.get('--freq', '1H'))
     es = EnergySystem(entities=nodes, timeindex=datetime_index,
                       groupings=GROUPINGS)
     es.timestamp = time.strftime("%Y%m%d-%H:%M:%S")
 
     return es
 
-def simulate(es=None, **arguments):
+def simulate(es=None, add_constraints=[], **arguments):
     """Creates the optimization model, solves it and writes back results to
     energy system object
 
@@ -85,6 +87,9 @@ def simulate(es=None, **arguments):
     es : :class:`oemof.solph.network.EnergySystem` object
        Energy system holding nodes, grouping functions and other important
        information.
+    add_constraints : list
+        List containing functions called on the optimization model instance to
+        generate and add user defined constraints
     **arguments : key word arguments
         Arguments passed from command line
     """
@@ -93,7 +98,11 @@ def simulate(es=None, **arguments):
     logging.info("Creating optimization model...")
     om = OperationalModel(es=es, constraint_groups=ADD_SOLPH_BLOCKS)
 
-    if arguments['--loglevel'] == 'DEBUG':
+    # call functions inside addtional constraints to add user specific contrs.
+    for f in add_constraints:
+        f(om)
+
+    if arguments.get('--loglevel', 'INFO') == 'DEBUG':
         lppath = os.path.join(arguments['--output-directory'],
                               'lp-file')
         if not os.path.exists(lppath):
@@ -106,7 +115,7 @@ def simulate(es=None, **arguments):
     logging.info('Solving optimization model...')
 
     om.solve(arguments['--solver'],
-             solve_kwargs={'tee':arguments['--solver-output']},
+             solve_kwargs={'tee':arguments.get('--solver-output', False)},
              cmdline_options= {"mipgap":arguments.get('--mipgap', 0)})
 
     om.results()
@@ -162,7 +171,8 @@ def main(**arguments):
 
     arguments['--output-directory'] = main_path(**arguments)
 
-    logging.getLogger().setLevel(getattr(logging, arguments['--loglevel']))
+    logging.getLogger().setLevel(getattr(logging, arguments.get('--loglevel',
+                                                                'INFO')))
     if arguments['--loglevel'] == 'DEBUG':
         print(arguments)
     # create nodes from csv

@@ -69,3 +69,5 @@ ADD_CSV_CLASSES = {'ExtractionTurbine': ExtractionTurbine,
                    'ElectricalBus': ElectricalBus}
 
 ADD_CSV_SEQ_ATTRIBUTES = ['power_loss_index']
+
+ADD_FLOW_ATTRIBUTES = ['linked', 'linked_nominal_value']
