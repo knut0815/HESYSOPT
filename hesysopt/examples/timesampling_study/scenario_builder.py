@@ -37,17 +37,14 @@ base_nodes_df = pd.read_csv('data/basefile_BP.csv', index_col=[0,1,2,3])
 
 
 # fuel costs for gas
-costs = {'LOW': 35,
-         'MED': 45,
-         'HIGH': 55,
-         'VHIGH': 65}
+costs = {'VHIGH': 45}
 
 all_scenarios = {}
 # scenario names
 
-size = ['0', '0.1', '0.25', '0.5', '1', '2', '4', '8']
-years = ['2010', '2013', '2015']
-hours = ['1H', '2H', '3H', '4H', '5H']
+size = ['0', '0.5', '1', '2', '4']
+years = ['2015']
+hours = ['1H']
 
 all_scenarios = {}
 for s in size:

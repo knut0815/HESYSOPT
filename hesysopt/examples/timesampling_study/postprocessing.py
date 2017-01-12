@@ -45,6 +45,7 @@ def compare_objectives(df, colors):
                        data=x,
                        kind="bar", size=2.5, aspect=.8)
     return x
+
 #from bokeh.charts import Area, show, vplot, output_file, defaults, Step
 #from hesysopt.plots.config import heat_df, colors, pd
 #from bokeh.palettes import brewer

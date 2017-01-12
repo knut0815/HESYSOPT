@@ -24,7 +24,7 @@ def restore(scenarios=['1HBP', '2HBP', '4HBP']):
         # restore dispatch results
         resultspath = os.path.join(homepath, 'hesysopt_simulation', s, 'results',
                                    'all_results.csv')
-        tmp = pd.read_csv(resultspath)
+        tmp = pd.read_csv(resultspath, parse_dates=['datetime'])
         tmp['Scenario'] = s
         main_df = pd.concat([main_df, tmp])
 
@@ -47,7 +47,9 @@ def restore(scenarios=['1HBP', '2HBP', '4HBP']):
                              sns.color_palette("coolwarm_r", len(components))))
     colors['scenarios'] = dict(zip(scenarios,
                           sns.color_palette("muted", len(scenarios))))
-    results = {'objective': objective_df, 'dispatch':main_df}
+
+    results = {'objective': objective_df, 'dispatch': main_df}
+
     return results, scenarios, colors
 
 

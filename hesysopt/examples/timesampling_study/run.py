@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-This module uses the functionalities from the app.py module for more flexbile
-node manipulation.
+This module uses the functionalities from the app.py module to run multiple
+scenarios specified upfront
 
 """
 import os
@@ -19,7 +19,8 @@ def run_scenario(sc, scenarios):
     sc : string
         Name of the scenario (key in the scenarios dictionary)
     scenarios : dict
-        Dictionary with scenario defintion build by scenario_builder
+        Nested dictionary with scenario defintion first key is 'sc'
+        Second level keys: 'node_path', 'seq_path', 'freq'
     """
 
     ####################### configure app #####################################
@@ -29,10 +30,10 @@ def run_scenario(sc, scenarios):
     arguments['--sequence_data'] = scenarios[sc]['seq_path']
     arguments['--start'] = '01/01/2010T00:00'
     arguments['--end'] = '12/31/2010T23:00'
-    arguments['--freq'] = scenarios[sc]['freq']
-    arguments['--loglevel'] = 'INFO'
-    arguments['--solver-output'] = 'True'
-    arguments['--solver'] = 'gurobi'
+    arguments['--freq'] = scenarios[sc].get('freq', '1H')
+    arguments['--loglevel'] = scenarios[sc].get('loglevel', 'INFO')
+    arguments['--solver-output'] = scenarios[sc].get('solver-output', 'True')
+    arguments['--solver'] = scenarios[sc].get('solver', 'gurobi')
     arguments['--mipgap'] = scenarios[sc].get('--mipgap', 0.0001)
     # output directory
     homepath = os.path.expanduser("~")

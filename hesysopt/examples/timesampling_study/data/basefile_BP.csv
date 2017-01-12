@@ -16,7 +16,7 @@ BackpressureTurbine,BP1,BP1,electrical_balance,0.4,1,,0.5,1,,,,True,,,,,
 BackpressureTurbine,BP1,BP1,heat_balance,0.4,,,,,,,,,,,,,
 BackpressureTurbine,BP1,gas_balance,BP1,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,
-Storage,STO,STO,heat_balance,,,,,,,,,,,0,0.5,0.5,1
+Storage,STO,STO,heat_balance,,,,,,,,,,,0,0.5,0.1,1
 Storage,STO,heat_balance,STO,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,
